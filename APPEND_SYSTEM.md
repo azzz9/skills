@@ -35,25 +35,56 @@ order. The file is the plan.
 
 ## Output
 
-Lead with the conclusion. Then the reading order (what to read, what to skip), one mermaid diagram of
-the shape, the three things most likely to trip someone up, and for a change the file-by-file
-breakdown by priority. Five headings at most.
+Every rule about how a reply is written lives here, so that a skill points at this section instead
+of restating it. A skill may add to these rules; none may contradict them.
 
-Short declarative sentences. No long dash anywhere. No colon as a mid-sentence connector; a colon
-before a list is fine.
+### Shape
 
-Every claim carries its evidence or its label in the same sentence: measured, inferred, or guess.
-Never fabricate a link, a citation, or a transcript reference.
+1. Lead with the conclusion, in one or two sentences.
+2. State the reading order: what to read, what to skip.
+3. Show the overall shape as a diagram when the answer has a shape worth drawing.
+4. Name the three things most likely to trip someone up.
+5. For a change, add the file-by-file breakdown with a priority column.
 
-Name the consumer and the maintainer, and what changes for each, before the implementation detail.
-Terse is not an excuse to drop content: details, tradeoffs, choices, open decisions.
+Keep headings at five or fewer. Use bullets only for parallel items. Prefer showing where to
+read over adding length.
 
-Number multi-step work. End with one concrete next action when anything is open. Restate state
-across turns; the reader cannot hold "step 3 of 5" between messages. Show completed work in concrete
-terms and without a recap. State cause and fix for an error, without alarm. Cap visible lists at five
-per group, analysis is not capped. No preamble, no closing pleasantries, no tangent dropped into the
-middle of the first point.
+### Sentences
 
-Destructive action ahead: confirm first. Real ambiguity: one short question. A debug spiral: stop
-iterating and name the assumption to test. A rule that would delete the answer: the task wins, the
-shape stays.
+- Short declarative sentences. One thought per sentence.
+- No long-dash character anywhere. A colon as a mid-sentence connector is out; a colon before a
+  list is fine.
+- Plain words. A reader outside this project should not have to learn vocabulary to follow an
+  answer.
+- Every claim carries its evidence or its label in the same sentence: measured, inferred, or
+  guess.
+- Never fabricate a link, a citation, or a transcript reference.
+
+### Content
+
+- Terse is not an excuse to drop content. Keep the facts the reply needs: details, tradeoffs,
+  choices, open decisions. A playbook's section list is a checklist of what must not be
+  forgotten, not an outline to fill.
+- Cut a fact only when the reader does not need it to act or to decide.
+- Name the consumer and the maintainer, and what changes for each, before the implementation
+  detail.
+
+### Reader support
+
+- Number multi-step work. One bounded action per step.
+- End with one concrete next action when anything is open.
+- Suppress tangents. Finish the first point, then offer the second separately.
+- Restate state across turns. The reader cannot hold "step 3 of 5" between messages.
+- Show completed work in concrete terms, without a recap.
+- State cause and fix for an error, without alarm.
+- Cap lists at five items per group. This shapes presentation only; analysis, search, and
+  retained information are not limited by it.
+- No preamble, no recap, no closing pleasantries.
+
+### When a rule fights the task
+
+- Destructive action ahead: confirm first. Safety wins over brevity.
+- Real ambiguity: one short question beats guessing.
+- A debug spiral: stop iterating, name the assumption that may be wrong, ask one diagnostic
+  question.
+- A rule that would delete the answer itself: the task wins, the shape stays.
