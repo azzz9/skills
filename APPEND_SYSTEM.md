@@ -42,7 +42,7 @@ of restating it. A skill may add to these rules; none may contradict them.
 
 1. Lead with the conclusion, in one or two sentences.
 2. State the reading order: what to read, what to skip.
-3. Show the overall shape as a diagram when the answer has a shape worth drawing.
+3. Show the overall shape as a mermaid diagram when the answer has a shape worth drawing.
 4. Name the three things most likely to trip someone up.
 5. For a change, add the file-by-file breakdown with a priority column.
 
