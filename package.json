@@ -1,0 +1,53 @@
+{
+	"name": "@azzz9/skills",
+	"version": "0.6.0",
+	"description": "The rules, the skills, and the playbooks an agent works from on this machine, as a pi package.",
+	"type": "module",
+	"license": "MIT",
+	"author": "azzz9",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/azzz9/skills.git"
+	},
+	"bugs": {
+		"url": "https://github.com/azzz9/skills/issues"
+	},
+	"homepage": "https://github.com/azzz9/skills#readme",
+	"publishConfig": {
+		"access": "public"
+	},
+	"keywords": [
+		"pi-package",
+		"pi-extension",
+		"skills",
+		"workflow",
+		"principles",
+		"subagents",
+		"unslop"
+	],
+	"files": [
+		"skills/",
+		"agents/",
+		"AGENTS.md",
+		"APPEND_SYSTEM.md",
+		"README.md",
+		"LICENSE",
+		"scripts/"
+	],
+	"peerDependencies": {
+		"@earendil-works/pi-coding-agent": "*"
+	},
+	"pi": {
+		"skills": [
+			"./skills"
+		],
+		"subagents": {
+			"agents": [
+				"./agents"
+			]
+		}
+	},
+	"scripts": {
+		"test": "node --test scripts/*.test.mjs"
+	}
+}
