@@ -6,6 +6,15 @@
 - A PR-status question reads the forge once and reports. No watcher, no polling, no merge. Opening a
   PR ends the work.
 - A UI, IDE, or CLI change is verified on the real surface by the agent, before the report.
+- Work that edits files in a git repo starts in a linked worktree you create. Call `teleport create`
+  with `branch: "pi/<slug>"`, where `<slug>` is two to four lowercase words taken from the task, then
+  `jump` to the path it prints, before the first edit. Never ask the human for a name. Outside Herdr,
+  pass an absolute `path` under `~/worktrees/<repo>/pi/<slug>` so the checkout stays out of `~/src`. A
+  checkout whose `.git` is a file is already a worktree, so work there and do not nest. Read-only
+  work stays put.
+- To send a task to a separate workspace, or to close one branch, read the `dispatch` skill and run
+  its steps. Triggers are 「投げて」, dispatch, 別 workspace, 子の pi に渡して, 片付けて, and wt-clean.
+  The dispatching session edits nothing itself and never passes `--force`.
 - Design, diagnosis, and verdicts with an explicit goal go to `deep`, which is read-only. Work that edits
   code or prose goes to `standard` or `intent`. Ambiguous work takes `intent`, routine delegation
   `standard`, and recon `fast`. The model behind a tier is the host's setting.
