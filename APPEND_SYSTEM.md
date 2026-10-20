@@ -13,17 +13,12 @@ that code cannot express. Never narrate code.
 
 - Before editing or adding files, state the plan in one to three lines: what changes, which files,
   how you will verify it, and what you will not touch. Then proceed unless the user redirects.
-- Work that edits files starts in a linked worktree. Herdr is assumed; use `/skill:workspace` in
-  create mode. Already in a worktree, work there; do not create another. Read-only stays put.
-- Before commit, check the diff against the no-comment rule. The caller fixes any comment that
-  fails.
-- Before opening a PR, run `reviewer` on the full PR diff. One reviewer per lane. Check the findings
-  and the no-comment rule; the caller fixes. Use `/skill:ship`. No merge, no watcher.
-- A PR-status question reads the forge once. Opening a PR ends the work.
-- A UI, IDE, or CLI change is verified on the real surface before the report.
+- Work that edits files starts in a linked worktree. Use `/skill:workspace` in create mode.
+  Read-only stays put.
+- Before commit, check the diff against `## Comments`.
+- Before opening a PR, use `/skill:ship`.
 - To send a task to another workspace or close one branch, use `/skill:workspace`. Triggers are
-  「投げて」, dispatch, 別 workspace, 子の pi に渡して, 片付けて, and wt-clean. The dispatcher edits nothing
-  and never passes `--force`.
+  「投げて」, dispatch, 別 workspace, 子の pi に渡して, 片付けて, and wt-clean.
 
 ## Output
 
