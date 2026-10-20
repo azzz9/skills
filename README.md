@@ -5,8 +5,8 @@ The rules, the skills, and the agents used on this machine, as a pi package.
 ## Where it comes from
 
 Parts of it come from [`cursor/plugins` pstack](https://github.com/cursor/plugins/tree/main/pstack). The
-skills, the principles, and several workflow skills began as theirs, and plenty of the wording is still
-theirs. Thank you. `LICENSE` keeps their copyright notice beside the modification notice.
+skills and several workflow ideas began as theirs, and plenty of the wording is still theirs. Thank you.
+`LICENSE` keeps their copyright notice beside the modification notice.
 
 `skills/herdr` and `skills/hunk-review` are vendored from their upstream projects. Each keeps
 the upstream `LICENSE` beside it and a `metadata.upstream` note in its frontmatter.
@@ -17,23 +17,24 @@ local changes.
 
 ## Skills
 
-Fourteen skills. Most are contracts with modes; yomiyasu, herdr, and hunk-review are vendored.
+Six skills. Three are ours and three are vendored.
 
-- Understand, design, plan
-- Change, diagnose, performance
-- Review, writing, ship, workspace
-- Skill dev, yomiyasu, herdr, hunk-review
+- `explain`, `ship`, `workspace`
+- `herdr`, `hunk-review`, `yomiyasu`
 
-`skill-dev` and `yomiyasu` are hidden from the catalog and run through `/skill:<name>`. `herdr` and `hunk-review` are vendored.
-`writing` points at the `yomiyasu` skill for Japanese prose.
+`yomiyasu` is hidden from the catalog and runs through `/skill:yomiyasu`. `explain` is a single
+procedure; `ship` and `workspace` have modes. `workspace` owns worktrees; `ship` owns commit and PR.
+The comment guard lives in `skills/shared/references/comments.md`.
 
-## Delegation
+## Orchestration
 
-The pi session that reads a skill calls `subagent({ agent, task })`. The subagent gets a scoped brief, not the
-caller's skill. The caller reviews the diff and verifies the result. `change` reviews its own diff; `ship`
-reviews the full PR diff. Local agents are `deep`, `standard`, `intent`, `fast`, and `comment-sicko`;
-`reviewer` comes from `pi-subagents`. `design` may delegate a sketch to `deep` and a prototype to
-`standard`.
+The main pi session is the orchestrator. It keeps the goal, does the main work, and dispatches only
+bounded, independent subtasks to `scout` (read-only) or `worker` (edit). Each subagent gets a
+self-contained brief and returns distilled findings. It does not read the caller's skill and does
+not spawn. The orchestrator synthesizes and verifies on the real surface.
+
+There is no tier ladder, no `reviewer`, and no `comment-sicko`. The comment guard is a pre-commit
+check in `ship`, backed by `skills/shared/scripts/comment-guard.sh`.
 
 ## Scope
 
@@ -42,10 +43,10 @@ plain Markdown, so they may travel, but nothing here has been verified against a
 
 ## Install
 
-Two files load on every turn. [APPEND_SYSTEM.md](APPEND_SYSTEM.md) holds the gates, the principles, the
-skill routing, and the reply rules. [AGENTS.md](AGENTS.md) holds the turn gate, the language rule, and the
-git rules. Wire both into `~/.pi/agent/`, and add this repository as a package row so pi finds the skills
-and the agents. Install `pi-subagents` for the `reviewer` agent used by `ship`.
+Two files load on every turn. [APPEND_SYSTEM.md](APPEND_SYSTEM.md) holds the orchestrator rules, the
+gates, the comment guard, the skill routing, and the reply rules. [AGENTS.md](AGENTS.md) holds the turn
+gate, the language rule, and the git rules. Wire both into `~/.pi/agent/`, and add this repository as a
+package row so pi finds the skills and the agents. Install `pi-subagents` for `subagent()`.
 
 ## License
 

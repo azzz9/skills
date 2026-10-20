@@ -9,7 +9,7 @@
 ## Local changes
 
 - The upstream `SKILL.md` is the base. The frontmatter is adapted for pi: `name`, `description`, `license`, `metadata.upstream`, `metadata.version`, and `disable-model-invocation: true`.
-- The standalone `/yomiyasu` invocation paragraph is removed. The `writing` skill owns the Japanese trigger; this skill is also available as `/skill:yomiyasu`.
+- The standalone `/yomiyasu` invocation paragraph is removed. `explain` and `ship` own the Japanese trigger; this skill is also available as `/skill:yomiyasu`.
 - A note records that scripts and references are relative to this directory.
 - Scripts and references are unchanged.
 - Omitted: `assets/`, `.codex-plugin/`, and `scripts/yomiyasu_hook.py`.

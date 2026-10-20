@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 # yomiyasu
 
-この skill は `writing` から日本語の文章のために参照される。単体では `/skill:yomiyasu` で使う。スクリプトと references はこのディレクトリを基準にする。
+この skill は `explain` と `ship` から日本語の文章のために参照される。単体では `/skill:yomiyasu` で使う。スクリプトと references はこのディレクトリを基準にする。
 
 AIが生成した文章の不自然な比喩、曖昧な主述関係、偏った構文を直し、読みやすく自然な日本語に整えるスキルです。
 

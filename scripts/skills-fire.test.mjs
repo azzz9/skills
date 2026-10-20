@@ -4,32 +4,18 @@ import { dirname, join } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
-// The one thing worth guarding: a skill that can fire. A skill fires when pi finds a SKILL.md whose
-// frontmatter carries a name and a description, and when `disable-model-invocation` is absent so the
-// model can pick it from the catalog.
-//
-// The list below is the contract. When the catalog intentionally changes, update it here and see the
-// delta.
-
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SKILLS = join(ROOT, "skills");
 
 const DISCOVERABLE = [
-	"change",
-	"design",
-	"diagnose",
+	"explain",
 	"herdr",
 	"hunk-review",
-	"performance",
-	"plan",
-	"review",
 	"ship",
-	"understand",
 	"workspace",
-	"writing",
 ];
 
-const HIDDEN = ["skill-dev", "yomiyasu"];
+const HIDDEN = ["yomiyasu"];
 
 // Directories under skills/ that hold shared material rather than a skill of their own.
 const CONTAINERS = ["shared"];

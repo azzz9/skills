@@ -1,22 +1,28 @@
 # Comments
 
-コメントは、コードで表せない理由だけを書く。コードを読めば分かることを書かない。
+Default is no comment. A comment is a cost paid on every read.
 
-## 書いてよいもの
+## Allowed
 
-- legal header
-- 外部依存、platform、vendor、protocol の非自明な挙動で、コードでは表せないもの
+- legal or license header
+- external dependency, platform, vendor, or protocol behavior that code cannot express
 - `prettier-ignore`
-- public API の contract を定義する doc comment
-- issue か RFC への link で、コードでは表せない制約を説明するもの
+- public API contract doc comment
+- issue or RFC link that explains a constraint code cannot express
 
-## 書かないもの
+## Forbidden
 
-- narration、banner
+- narration, banner
 - commented-out code
-- workaround の説教、長い justification
-- `IMPORTANT`、`do not remove`、`too risky`、`fine for now` のような、コードで証明されていない主張
+- workaround sermon, long justification
+- `IMPORTANT`, `do not remove`, `too risky`, `fine for now` without proof
+- a comment that restates the next line, the signature, or the type
 
-## レビュー
+## Guard
 
-review の comments モードは、この基準に合わないコメントを finding として返す。comment-sicko は自分の prompt の例外リストを使う。呼び出し元はこのファイルで findings を検収する。
+Before commit, list every added comment line and the reason it cannot be expressed in code. Delete
+every comment that fails. If a better name, a type, or a test can carry the meaning, do that instead.
+A comment that survives must name the constraint or decision it preserves.
+
+The orchestrator runs `../scripts/comment-guard.sh` on the diff to list candidates. The script is a
+candidate list, not a verdict. The orchestrator decides, and `ship` records the decision.

@@ -1,28 +1,45 @@
+## Orchestrator
+
+The main pi session is the orchestrator. It owns the goal, the decomposition, the final output, and
+the verification. It does the main work itself and delegates only independent, bounded subtasks.
+
+- Dispatch `scout` for read-only recon and checks, and `worker` for bounded edits. A mode marked
+  `subagent なし` stays with the orchestrator.
+- A subagent gets a self-contained brief: goal, scope, inputs, output format, verification
+  criteria, and stop condition. It returns distilled findings, not raw logs. It does not read the
+  caller's skill and does not spawn.
+- Parallelize independent reads and checks. Sequence dependent work. Do not delegate the whole
+  task.
+- Synthesize the results. Resolve conflicts, route cross-cutting findings, and verify on the real
+  surface. Do not trust self-reports.
+- A read-only check returns findings; the orchestrator decides and edits.
+- If a subagent fails twice, do the work yourself or report the block. No unbounded loops.
+- Start with the simplest pattern. One subagent is enough until the task proves otherwise.
+- The orchestrator is the information bottleneck. Keep its context on the goal, not on raw
+  subagent output.
+
 ## Gates
 
-- Before editing or adding files, run `/skill:design` and show its `## 方針` plan. Then proceed
-  unless the user redirects. If the plan changes, say what changed.
-- Before every commit, run `/skill:review` in slop mode over the diff. Commits belong to the task.
-- Before review, run `/skill:review` in comments mode. A read-only review stops at findings.
-- Before opening a PR, run `/skill:review` in comments mode and code mode over the full PR diff, one
-  reviewer per lane on a different lineage than the caller's.
-- A PR-status question reads the forge once. No watcher, no merge. Opening a PR ends the work.
-- A UI, IDE, or CLI change is verified on the real surface before the report.
+- Before editing or adding files, state the plan in one to three lines: what changes, which files,
+  how you will verify it, and what you will not touch. Then proceed unless the user redirects.
 - Work that edits files starts in a linked worktree. Herdr is assumed; use `/skill:workspace` in
   create mode. Already in a worktree, work there; do not create another. Read-only stays put.
+- Before commit, run the comment guard in `/skill:ship`. List every added comment and why it cannot
+  be code. Delete the rest.
+- Before opening a PR, verify the full diff against explicit criteria. Use `/skill:ship` for the
+  commit and PR steps. Commit one intent. No merge, no watcher.
+- A PR-status question reads the forge once. Opening a PR ends the work.
+- A UI, IDE, or CLI change is verified on the real surface before the report.
 - To send a task to another workspace or close one branch, use `/skill:workspace`. Triggers are
   「投げて」, dispatch, 別 workspace, 子の pi に渡して, 片付けて, and wt-clean. The dispatcher edits nothing
   and never passes `--force`.
-- Design, diagnosis, and verdicts use `deep` (read-only). Edits use `standard` or `intent`; mechanical
-  edits use `fast`. The caller reads the skill and passes a scoped brief to `subagent`; the subagent
-  does not read the caller's skill and does not spawn. The caller reviews the diff.
 
 ## Skills
 
-Nontrivial work follows one skill from the catalog. Each skill has a mode table, a line that says
-whether modes are exclusive, sequential, or combined, and a parenthesized agent for each mode. A mode
-marked `subagent なし` stays with the caller. Pick the mode or modes that match the task. Read the
-skill, then run the mode. The skill is the plan. When no skill fits, use `/skill:plan` in novel mode.
+The catalog is `explain`, `ship`, `workspace`, `herdr`, `hunk-review`, and `yomiyasu` (hidden).
+Read the matching skill. `explain` is a single procedure. `ship` and `workspace` have modes. The
+vendored skills keep their upstream shape. When no skill fits, do the work directly as the
+orchestrator.
 
 ## Output
 
