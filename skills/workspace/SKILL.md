@@ -13,7 +13,8 @@ description: "作業用 worktree と Herdr workspace の作成、終了。編集
 - 1タスク1 worktree。同時 writer を同じ cwd に置かない。
 - dispatch は `subagent()` ではない。別の pi セッションで、child が checkout を持つ。dispatch する側は編集しない。独立したタスクだけを dispatch し、現在の worktree の子 worktree を作らない。
 - 掃除は irreversible。`git worktree list` のパスだけを使う。`wip:N` と使用中は pause。clean、merged、not-in-use は進む。
-- branch ref は残す。`create` では `--force` を渡さない。`clean` は未コミットを確認した後だけ `--force` を使う。
+- branch ref は残す。`wt-clean` で1ブランチを完全に閉じるときだけ、merge の証明があるときに branch も消す。
+- `create` では `--force` を渡さない。`clean` は未コミットを確認した後だけ `--force` を使う。
 - Herdr の workspace と pane を閉じる。
 
 ## モード
@@ -21,7 +22,7 @@ description: "作業用 worktree と Herdr workspace の作成、終了。編集
 選び方: 1回に1つ。`create` と `clean` は別の操作。
 
 - **create** (subagent なし; Herdr + child pi): 大本の repo から worktree を作り、独立したタスクを child に渡す。手順は `references/herdr-workspace.md`。いま worktree の中なら、そこで作業する。
-- **clean** (subagent なし; Herdr): 1ブランチは `wt-clean pi/<slug> --repo <repo root>`。複数は `scripts/worktree-audit.sh` で候補を出し、未コミットと使用中を確認してから削除する。
+- **clean** (subagent なし; Herdr): 1ブランチを完全に閉じるなら `wt-clean pi/<slug> --repo <repo root>`。branch ref を残すなら `git worktree remove` を使い、branch を消さない。複数は `scripts/worktree-audit.sh` で候補を出し、未コミットと使用中を確認してから削除する。
 
 ## 停止
 

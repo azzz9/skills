@@ -23,6 +23,7 @@ description: "コードを変える、または新規に作る。機能追加、
 
 - 作る前、変える前に、どうなったら成功かを決める。決めずに書き始めない。
 - 編集の前に `design` を通し、`## 方針` を出す。小さい修正は2から3行でよい。
+- `diagnose` から来た fix は、failing repro と same surface の passing run を引き継ぐ。unit test は bug absence の証明ではない。
 - 実際の画面、実行結果、artifact で確かめる。テストだけ、目視だけでは足りない。判定できない、または違う画面で試したなら合格にしない。
 - コメントの基準は `../shared/references/comments.md`。
 
