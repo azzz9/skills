@@ -17,7 +17,7 @@ const DISCOVERABLE = [
 	"workspace",
 ];
 
-const HIDDEN = ["retro", "yomiyasu"];
+const HIDDEN = ["bro", "retro", "yomiyasu"];
 
 // Directories under skills/ that hold shared material rather than a skill of their own.
 const CONTAINERS = ["shared"];

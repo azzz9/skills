@@ -27,15 +27,16 @@ the repo's PR template when one exists; otherwise its own. The body is written w
 
 ## Skills
 
-Nine skills. Three are ours and six are vendored.
+Ten skills. Four are ours and six are vendored.
 
-- `explain`, `ship`, `workspace`
+- `bro`, `explain`, `ship`, `workspace`
 - `herdr`, `hunk-review`, `imozuru`, `pr`, `retro`, `yomiyasu`
 
-`retro` and `yomiyasu` are hidden from the catalog and run through `/skill:<name>`. `explain` is a
-single procedure; `imozuru` is a research procedure with a watch mode; `pr` is a vendored PR body
-template; `ship` and `workspace` have modes. `workspace` owns worktrees; `ship` owns commit and PR
-and runs the two review agents. The comment rules live in `skills/shared/references/comments.md`.
+`bro`, `retro`, and `yomiyasu` are hidden from the catalog and run through `/skill:<name>`. `bro` is
+a plain-language restatement procedure; `explain` is a single procedure; `imozuru` is a research
+procedure with a watch mode; `pr` is a vendored PR body template; `ship` and `workspace` have modes.
+`workspace` owns worktrees; `ship` owns commit and PR and runs the two review agents. The comment
+rules live in `skills/shared/references/comments.md`.
 
 ## Subagents
 
