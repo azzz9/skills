@@ -11,6 +11,7 @@ const DISCOVERABLE = [
 	"explain",
 	"herdr",
 	"hunk-review",
+	"imozuru",
 	"ship",
 	"workspace",
 ];
@@ -28,6 +29,21 @@ function frontmatter(dir) {
 	return text.slice(4, close);
 }
 
+function description(fm) {
+	const inline = fm.match(/^description:\s*(.+)$/m)?.[1]?.trim();
+	if (inline && !/^[|>]/.test(inline)) return inline;
+	const lines = fm.split("\n");
+	const start = lines.findIndex((line) => /^description:\s*[|>]/.test(line));
+	if (start === -1) return "";
+	const block = [];
+	for (let i = start + 1; i < lines.length; i++) {
+		const line = lines[i];
+		if (!/^\s+/.test(line)) break;
+		block.push(line.trim());
+	}
+	return block.join(" ");
+}
+
 function skills() {
 	return readdirSync(SKILLS, { withFileTypes: true })
 		.filter((entry) => entry.isDirectory())
@@ -40,10 +56,10 @@ test("every skill can fire, and exactly the listed skills are fireable", () => {
 	for (const name of skills()) {
 		const fm = frontmatter(name);
 		const declared = fm.match(/^name:\s*(.+)$/m)?.[1]?.trim();
-		const description = fm.match(/^description:\s*(.+)$/m)?.[1]?.trim();
+		const descriptionText = description(fm);
 		assert.ok(declared, `${name}: frontmatter has no name`);
 		assert.equal(declared, name, `${name}: name does not match its directory`);
-		assert.ok(description && description.length > 20, `${name}: frontmatter has no usable description`);
+		assert.ok(descriptionText && descriptionText.length > 20, `${name}: frontmatter has no usable description`);
 		if (!/^disable-model-invocation:\s*true\s*$/m.test(fm)) fireable.push(name);
 	}
 	assert.deepEqual(fireable.sort(), DISCOVERABLE);

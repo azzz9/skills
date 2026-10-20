@@ -15,16 +15,22 @@ the upstream `LICENSE` beside it and a `metadata.upstream` note in its frontmatt
 (MIT). It keeps the upstream `LICENSE` and `UNICODE-LICENSE.txt`; `VENDOR.md` records the commit and the
 local changes.
 
+`skills/imozuru` is vendored from [`MaryCache/imozuru`](https://github.com/MaryCache/imozuru)
+(MIT). It keeps the upstream `LICENSE`; `VENDOR.md` records the commit and local changes. Its
+scripts need Python 3.10+ and use only the standard library. Optional `pdftotext`, `yt-dlp`,
+`tesseract`, and `ax` improve PDF, YouTube, OCR, and HTML handling.
+
 ## Skills
 
-Six skills. Three are ours and three are vendored.
+Seven skills. Three are ours and four are vendored.
 
 - `explain`, `ship`, `workspace`
-- `herdr`, `hunk-review`, `yomiyasu`
+- `herdr`, `hunk-review`, `imozuru`, `yomiyasu`
 
 `yomiyasu` is hidden from the catalog and runs through `/skill:yomiyasu`. `explain` is a single
-procedure; `ship` and `workspace` have modes. `workspace` owns worktrees; `ship` owns commit and PR.
-The comment guard lives in `skills/shared/references/comments.md`.
+procedure; `imozuru` is a research procedure with a watch mode; `ship` and `workspace` have modes.
+`workspace` owns worktrees; `ship` owns commit and PR. The comment guard lives in
+`skills/shared/references/comments.md`.
 
 ## Orchestration
 
