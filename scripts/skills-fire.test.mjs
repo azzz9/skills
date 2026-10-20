@@ -12,11 +12,12 @@ const DISCOVERABLE = [
 	"herdr",
 	"hunk-review",
 	"imozuru",
+	"pr",
 	"ship",
 	"workspace",
 ];
 
-const HIDDEN = ["yomiyasu"];
+const HIDDEN = ["retro", "yomiyasu"];
 
 // Directories under skills/ that hold shared material rather than a skill of their own.
 const CONTAINERS = ["shared"];

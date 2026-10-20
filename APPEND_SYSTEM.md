@@ -23,10 +23,11 @@ makes the fix.
 
 ## Skills
 
-The catalog is `explain`, `imozuru`, `ship`, `workspace`, `herdr`, `hunk-review`, and `yomiyasu`
-(hidden). Read the matching skill. `explain` is a single procedure. `imozuru` is a research
-procedure with a watch mode. `ship` and `workspace` have modes. The vendored skills keep their
-upstream shape. When no skill fits, do the work directly.
+The catalog is `explain`, `imozuru`, `pr`, `retro`, `ship`, `workspace`, `herdr`, `hunk-review`,
+and `yomiyasu`. `retro` and `yomiyasu` are hidden. Read the matching skill. `explain` is a single
+procedure. `imozuru` is a research procedure with a watch mode. `pr` and `retro` are vendored
+procedures. `ship` and `workspace` have modes. The vendored skills keep their upstream shape. When
+no skill fits, do the work directly.
 
 ## Output
 

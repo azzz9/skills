@@ -20,17 +20,21 @@ local changes.
 scripts need Python 3.10+ and use only the standard library. Optional `pdftotext`, `yt-dlp`,
 `tesseract`, and `ax` improve PDF, YouTube, OCR, and HTML handling.
 
+`skills/pr` and `skills/retro` are vendored from [`mattpocock/skills`](https://github.com/mattpocock/skills)
+(MIT). Each keeps the upstream `LICENSE`; `VENDOR.md` records the commit and local changes. `pr` is
+the PR body template; `ship` still owns the commit and PR gate. `retro` is hidden.
+
 ## Skills
 
-Seven skills. Three are ours and four are vendored.
+Nine skills. Three are ours and six are vendored.
 
 - `explain`, `ship`, `workspace`
-- `herdr`, `hunk-review`, `imozuru`, `yomiyasu`
+- `herdr`, `hunk-review`, `imozuru`, `pr`, `retro`, `yomiyasu`
 
-`yomiyasu` is hidden from the catalog and runs through `/skill:yomiyasu`. `explain` is a single
-procedure; `imozuru` is a research procedure with a watch mode; `ship` and `workspace` have modes.
-`workspace` owns worktrees; `ship` owns commit and PR and runs the two review agents. The comment
-rules live in `skills/shared/references/comments.md`.
+`retro` and `yomiyasu` are hidden from the catalog and run through `/skill:<name>`. `explain` is a
+single procedure; `imozuru` is a research procedure with a watch mode; `pr` is a vendored PR body
+template; `ship` and `workspace` have modes. `workspace` owns worktrees; `ship` owns commit and PR
+and runs the two review agents. The comment rules live in `skills/shared/references/comments.md`.
 
 ## Subagents
 
