@@ -1,6 +1,6 @@
 ---
 name: refactoring
-description: "Refactoring. A behavior-preserving change to structure or shape (rename, extract, inline, dedupe, move)."
+description: "Refactoring. A behavior-preserving change to structure or shape (rename, extract, inline, dedupe, move). Use when asked to rename, extract, inline, dedupe, move, or restructure code without changing behavior."
 ---
 
 ### Refactoring
@@ -13,7 +13,7 @@ If the cleanup reveals a missing feature or a real bug, split it out and ship th
 2. Name the structure the code is missing per the Model the Domain principle. Boring code stays when the shape is already clear and local. The reshape must delete branches or invalid states, not add indirection.
 3. Name the target shape. State what the module layout, types, and call graph should be if built today (the Model the Domain principle). If the target crosses a function boundary, run the **architect** skill for parallel design exploration of the shape before the move.
 4. Subtract before you add. Delete dead code, collapse one-caller wrappers, drop redundant validators, and remove orphan references before introducing the new shape. The smallest change that reaches the target shape ships (the Laziness Protocol principle). A speculative cleanup that "might help" gets reverted.
-5. Move in small behavior-preserving steps, each keeping the pin green. For API reshapes, migrate every caller and delete the old API in the same wave. No compatibility shims, no parallel old-and-new paths. Spot-check every rename against the actual files. Renames silently miss usages in strings, prose, and back-references. Delegate the mechanical edits to a subagent using your configured refactoring model (default inherit-parent) with a specific scope (file paths, the names being moved, the behavior to hold). Review the diff yourself.
+5. Move in small behavior-preserving steps, each keeping the pin green. For API reshapes, migrate every caller and delete the old API in the same wave. No compatibility shims, no parallel old-and-new paths. Spot-check every rename against the actual files. Renames silently miss usages in strings, prose, and back-references. Delegate the mechanical edits to `standard` with a specific scope (file paths, the names being moved, the behavior to hold). Review the diff yourself.
 6. Prove behavior is unchanged on the real artifact, not "it compiles" (the Prove It Works principle). For larger reshapes, run an equivalence check: a script that diffs old-vs-new outputs, a recorded baseline replayed against the new code, or a smoke run on the matching surface via the relevant control skill. Own the verification yourself. Do not trust a delegate's "looks good" summary.
 7. Confirm the change is worth keeping. The success measure is reduced reader load (the Laziness Protocol principle). If the diff does not lower reader load somewhere, revert it.
 8. Rebase into small ordered commits. A subtraction commit, then the reshape, then any follow-on cleanup. Shape them so each behavior-preserving slice stays green before the next. Run **Opening a PR**.
