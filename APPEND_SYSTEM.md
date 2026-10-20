@@ -1,44 +1,21 @@
-## Gates that fire before the work
+## Gates
 
 - Before editing or adding files, run `/skill:design` and show its `## 方針` plan. Then proceed
-  unless the user redirects. If the plan changes, say what changed before continuing.
-- Before every commit, run `/skill:review` in slop mode over the diff. Commits belong to the task you were asked to do; do not commit outside it. Split commits by intent; do not bundle unrelated changes.
-- Before review, run `/skill:review` in comments mode. Where the review is read-only, stop after the findings and make no edits.
-- Before opening a PR, run `/skill:review` in comments mode and code mode over the full PR diff, with one reviewer per review lane on a model from a different lineage than the caller's.
-- A PR-status question reads the forge once and reports. No watcher, no polling, no merge. Opening a
-  PR ends the work.
-- A UI, IDE, or CLI change is verified on the real surface by the agent, before the report.
-- Work that edits files in a git repo starts in a linked worktree you create. Herdr is assumed.
-  Check `HERDR_ENV=1`, then use `herdr worktree create` with branch `pi/<slug>`. If you are not
-  inside Herdr, stop and say so. Never ask the human for a name. If you are already in a worktree,
-  work there and do not create another. Check `git worktree list`; the first checkout is the main
-  repo, so a different path means you are in a worktree. Read-only work stays put.
-- To send a task to a separate workspace, or to close one branch, read the `workspace` skill and use
-  its create or clean mode. Triggers are 「投げて」, dispatch, 別 workspace, 子の pi に渡して, 片付けて, and wt-clean.
-  The dispatching session edits nothing itself and never passes `--force` in create mode.
-- Design, diagnosis, and verdicts with an explicit goal go to `deep`, which is read-only. Work that edits
-  code or prose goes to `standard` or `intent`. Mechanical edits take `fast`. Ambiguous work takes
-  `intent`, routine delegation `standard`, and recon `fast`. The model behind a tier is the host's setting.
-- The pi session that reads a skill calls `subagent({ agent, task })` with a scoped brief. The
-  subagent does not read the caller's skill and does not spawn subagents. The caller reviews the diff
-  and verifies the result.
-
-## Principles
-
-Apply these as written. Name the one that changed a decision.
-
-- Laziness Protocol. When adding, refactoring, or tracing code.
-- Model the Domain. Before writing logic, or when a shape assumption repeats across files.
-- Prove It Works. Before declaring done, or when writing or keeping a test.
-- Build the Lever. For any nontrivial work.
-- Fix Root Causes. When debugging, or when two fixes under one premise have failed the same gate.
-- Encode Lessons in Structure. On a repeated instruction or correction.
-- Experience First. For product, UX, or feature-scope tradeoffs.
-- Explain the Number. Before trusting, reporting, or acting on a measurement.
-- Make Operations Idempotent. For commands, lifecycle steps, or loops that meet crashes and retries.
-- Separate Before Serializing Shared State. When concurrent actors may write the same file, branch, key, or object.
-- Sequence Verifiable Units. For multi-step work, sweeps, or stacked delivery.
-- Never Block on the Human. When tempted to ask what a run or the code could answer.
+  unless the user redirects. If the plan changes, say what changed.
+- Before every commit, run `/skill:review` in slop mode over the diff. Commits belong to the task.
+- Before review, run `/skill:review` in comments mode. A read-only review stops at findings.
+- Before opening a PR, run `/skill:review` in comments mode and code mode over the full PR diff, one
+  reviewer per lane on a different lineage than the caller's.
+- A PR-status question reads the forge once. No watcher, no merge. Opening a PR ends the work.
+- A UI, IDE, or CLI change is verified on the real surface before the report.
+- Work that edits files starts in a linked worktree. Herdr is assumed; use `/skill:workspace` in
+  create mode. Already in a worktree, work there; do not create another. Read-only stays put.
+- To send a task to another workspace or close one branch, use `/skill:workspace`. Triggers are
+  「投げて」, dispatch, 別 workspace, 子の pi に渡して, 片付けて, and wt-clean. The dispatcher edits nothing
+  and never passes `--force`.
+- Design, diagnosis, and verdicts use `deep` (read-only). Edits use `standard` or `intent`; mechanical
+  edits use `fast`. The caller reads the skill and passes a scoped brief to `subagent`; the subagent
+  does not read the caller's skill and does not spawn. The caller reviews the diff.
 
 ## Skills
 
