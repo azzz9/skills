@@ -19,9 +19,6 @@ const DISCOVERABLE = [
 
 const HIDDEN = ["bro", "retro", "yomiyasu"];
 
-// Directories under skills/ that hold shared material rather than a skill of their own.
-const CONTAINERS = ["shared"];
-
 function frontmatter(dir) {
 	const text = readFileSync(join(SKILLS, dir, "SKILL.md"), "utf8");
 	assert.ok(text.startsWith("---\n"), `${dir}: missing opening frontmatter`);
@@ -80,7 +77,6 @@ test("no directory under skills/ is a half-made skill", () => {
 	const strays = readdirSync(SKILLS, { withFileTypes: true })
 		.filter((entry) => entry.isDirectory())
 		.map((entry) => entry.name)
-		.filter((name) => !CONTAINERS.includes(name))
 		.filter((name) => !existsSync(join(SKILLS, name, "SKILL.md")));
 	assert.deepEqual(strays, [], "a directory without SKILL.md never fires");
 });

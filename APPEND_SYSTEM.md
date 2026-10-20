@@ -5,14 +5,19 @@ and `reviewer` for the diff. No other subagent is used. The caller gives a scope
 subagent does not read the caller's skill and does not spawn. The caller checks the findings and
 makes the fix.
 
+## Comments
+
+Write no comments. Keep a comment only for a legal header or a non-obvious external constraint
+that code cannot express. Never narrate code.
+
 ## Gates
 
 - Before editing or adding files, state the plan in one to three lines: what changes, which files,
   how you will verify it, and what you will not touch. Then proceed unless the user redirects.
 - Work that edits files starts in a linked worktree. Herdr is assumed; use `/skill:workspace` in
   create mode. Already in a worktree, work there; do not create another. Read-only stays put.
-- Before commit, run `comment-sicko` on the diff. Check the findings with
-  `skills/shared/references/comments.md`. Stop at findings; the caller fixes.
+- Before commit, run `comment-sicko` on the diff. It enforces the no-comment rule. Stop at
+  findings; the caller fixes.
 - Before opening a PR, run `reviewer` and `comment-sicko` on the full PR diff. One reviewer per
   lane. Check the findings; the caller fixes. Use `/skill:ship`. No merge, no watcher.
 - A PR-status question reads the forge once. Opening a PR ends the work.

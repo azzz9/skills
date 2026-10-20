@@ -36,12 +36,12 @@ Ten skills. Four are ours and six are vendored.
 a plain-language restatement procedure; `explain` is a single procedure; `imozuru` is a research
 procedure with a watch mode; `pr` is a vendored PR body template; `ship` and `workspace` have modes.
 `workspace` owns worktrees; `ship` owns commit and PR and runs the two review agents. The comment
-rules live in `skills/shared/references/comments.md`.
+rule lives in `APPEND_SYSTEM.md`, under `## Comments`.
 
 ## Subagents
 
-The main session does the work. Subagents are only for review. `comment-sicko` removes comments
-that fail `skills/shared/references/comments.md`; `reviewer` reviews the diff. There is no
+The main session does the work. Subagents are only for review. `comment-sicko` enforces
+APPEND's no-comment rule; `reviewer` reviews the diff. There is no
 orchestrator, scout, worker, or tier ladder. Each subagent gets a scoped brief and returns findings.
 It does not read the caller's skill and does not spawn. The caller checks the findings and makes the
 fix.

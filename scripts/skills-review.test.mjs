@@ -27,9 +27,10 @@ test("the only local subagent is comment-sicko", () => {
 	assert.ok(!tools.includes("subagent"), "comment-sicko: exposes subagent");
 });
 
-test("the comment rules exist", () => {
-	const comments = readFileSync(join(SKILLS, "shared", "references", "comments.md"), "utf8");
-	assert.match(comments, /Default is no comment/);
+test("the no-comment rule is in APPEND", () => {
+	const append = readFileSync(join(ROOT, "APPEND_SYSTEM.md"), "utf8");
+	assert.match(append, /^## Comments$/m);
+	assert.match(append, /Write no comments/);
 });
 
 test("ship uses reviewer and comment-sicko", () => {
