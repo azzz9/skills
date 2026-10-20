@@ -21,8 +21,20 @@ plain Markdown, so they may travel, but nothing here has been verified against a
 
 Two files load on every turn. [APPEND_SYSTEM.md](APPEND_SYSTEM.md) holds the gates, the principles, the
 playbook relay, and the reply rules. [AGENTS.md](AGENTS.md) holds the turn gate, the language rule, and the
-git rules. Wire both into `~/.pi/agent/`, and add this repository as a package row so pi finds the skills
-and the agents.
+git rules. Wire both into `~/.pi/agent/`, and add this repository as a package row so pi finds the skills,
+the agents, and `/clone-pane`.
+
+## Clone a session into a pane
+
+`/clone-pane` copies the current session into an adjacent Herdr pane, so a side question never enters the
+main transcript. The clone runs `pi --fork <session file>` in the new pane. Pass `down` for a vertical
+split. It needs `HERDR_ENV=1` and a saved session.
+
+## Know when another session changed the worktree
+
+`external-changes.ts` lists files changed outside this session at the start of each run. It compares
+`git status` mtimes against the state after this session's last edit. A clone's edits are marked before
+the model reads the files.
 
 ## License
 
