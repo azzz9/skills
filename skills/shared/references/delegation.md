@@ -13,7 +13,7 @@ skill を読むのは、subagent を呼ぶ側の pi セッション。subagent �
 | `intent` | 曖昧な依頼の整理と実装 | 可 | scope が決まっていないとき |
 | `fast` | 調査、機械的な編集 | 可 | 形が決まっているとき |
 | `comment-sicko` | コメント削除のレビュー | 不可 | review の comments モード |
-| `reviewer` | PR の差分全体のレビュー（`review` の code モード） | 不可 | pi-subagents 由来。なければ止まる |
+| `reviewer` | `review` code モードの diff レビュー。`change` は今回の変更、`ship` は PR 全体 | 不可 | pi-subagents 由来。なければ止まる |
 
 ## brief に書くこと
 
