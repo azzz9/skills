@@ -1,5 +1,8 @@
 ## Gates that fire before the work
 
+- Before editing or adding files, state the plan in one to three lines: what changes, which files, how
+  you will verify, and what you will not touch. Then proceed unless the user redirects. If the plan
+  changes, say what changed before continuing.
 - Before every commit, run `/skill:review` in slop mode over the diff. Commits belong to the task you were asked to do; do not commit outside it. Split commits by intent; do not bundle unrelated changes.
 - Before review, run `/skill:review` in comments mode. Where the review is read-only, stop after the findings and make no edits.
 - Before opening a PR, run `/skill:review` in comments mode and code mode over the full PR diff, with one reviewer per review lane on a model from a different lineage than the caller's.
