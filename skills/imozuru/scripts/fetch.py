@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """原文を1本落とし、本物かどうか確かめてから sources/ に残す。
 
-検索結果の URL は古いことが多く、2026-10-09 の試しでは 11 本中 5 本が
+検索結果の URL は古いことが多く、2026-10-09 の試行では 11 本中 5 本が
 404・ログインの壁・PDF のふりをした HTML だった。拡張子や HTTP の成否では
 見分けられないので、中身の先頭と文字数で判定する。
 
@@ -33,7 +33,7 @@ from pathlib import Path
 
 # 本文として読める最低の文字数。404 ページや認証の壁は数百〜数千文字に収まる。
 # PDF は英語の論文が多いので高め。HTML は日本語の短い記事を通すため低め
-# （大陸塗りの試しで 2,904 字の本物の記事が 3,000 の下限で落ちた）。
+# （大陸塗りの試行で 2,904 字の本物の記事が 3,000 の下限で落ちた）。
 MIN_TEXT_CHARS = 3000
 MIN_HTML_CHARS = 1000
 # 和文（日本語・中国語）の PDF は、英語より少ない字数で中身がある。
@@ -59,6 +59,9 @@ WALL_PATTERNS = (
     "enable javascript",
     "are you a robot",
     "captcha",
+    # Anubis（ボット除けの計算をさせるページ）。HAL などが使う。中身の無い 1,000 字ほどのページが
+    # HTML の下限を越えて OK になった（2026-10-20）
+    "you're not a bot",
 )
 
 
@@ -158,7 +161,7 @@ def ascii_url(url: str) -> str:
     """パスとクエリにそのまま入った日本語の字などを % で符号化する。
 
     urllib は要求の行を ASCII で組むので、辞書の項目名や自治体のファイル名を符号化せずに
-    書いたリンクは UnicodeEncodeError で止まる（和竿の漆塗りの試しで 36 本中 2 本）。
+    書いたリンクは UnicodeEncodeError で止まる（和竿の漆塗りの試行で 36 本中 2 本）。
     safe に % を入れるので、符号化済みの URL は変わらない。国際化ドメイン名は扱わない。
     """
     p = urllib.parse.urlsplit(url)
@@ -174,7 +177,26 @@ BROWSER_UA = "Mozilla/5.0 imozuru"
 PLAIN_UA = "imozuru"
 
 
-def download(url: str, user_agent: str = BROWSER_UA) -> tuple[bytes, str]:
+class Download:
+    """The body, content type, and final URL of a fetch."""
+
+    def __init__(self, body: bytes, ctype: str, final_url: str) -> None:
+        self.body = body
+        self.ctype = ctype
+        self.final_url = final_url
+
+    def __iter__(self):
+        yield self.body
+        yield self.ctype
+
+    def __getitem__(self, index: int):
+        return (self.body, self.ctype, self.final_url)[index]
+
+    def __len__(self) -> int:
+        return 3
+
+
+def download(url: str, user_agent: str = BROWSER_UA) -> Download:
     """URL を取りに行き、本体と Content-Type を返す。
 
     MAX_BYTES を超える本体や、Content-Length に届かずに切れた本体は、取得ごと失敗にする。
@@ -191,7 +213,7 @@ def download(url: str, user_agent: str = BROWSER_UA) -> tuple[bytes, str]:
             raise ValueError(f"本体が {MAX_BYTES:,} バイトを超える")
         if isinstance(res.length, int) and res.length > 0:
             raise ValueError("本体が途中で切れた")
-        return body, res.headers.get("Content-Type", "")
+        return Download(body, res.headers.get("Content-Type", ""), res.geturl())
 
 
 def pdf_save(url: str, out: Path) -> bool:
@@ -201,9 +223,10 @@ def pdf_save(url: str, out: Path) -> bool:
     こちらで確かめられないので、検査つきの download で頼み直す。
     """
     try:
-        body, _ = download(url, user_agent=PLAIN_UA)
+        downloaded = download(url, user_agent=PLAIN_UA)
     except Exception:  # 取れなければ HTML のまま進める
         return False
+    body = downloaded[0]
     if body[:5] != b"%PDF-":
         return False
     out.write_bytes(body)
@@ -476,6 +499,19 @@ class _TextExtractor(HTMLParser):
         return re.sub(r"\n{3,}", "\n\n", "\n".join(lines)).strip() + "\n"
 
 
+_MARKDOWN_LINK = re.compile(r"\]\(([^)\s]+)\)")
+
+
+def resolve_markdown_links(text: str, base: str) -> str:
+    """Resolve relative markdown links against the URL that served the page."""
+    def replace(match: re.Match[str]) -> str:
+        target = match.group(1)
+        if target.startswith(("#", "mailto:", "data:")) or "://" in target:
+            return match.group(0)
+        return f"]({urllib.parse.urljoin(base, target)})"
+    return _MARKDOWN_LINK.sub(replace, text)
+
+
 def html_to_md(url: str, out: Path, body: bytes | None = None, ctype: str = "") -> str:
     """本文を markdown にする。要約はしない。
 
@@ -487,7 +523,11 @@ def html_to_md(url: str, out: Path, body: bytes | None = None, ctype: str = "") 
     body を渡されたら取り直さずにそれを使う。ctype は body の Content-Type（文字コードの名乗りを読む）。
     """
     if body is None:
-        body, ctype = download(url)
+        downloaded = download(url)
+        body, ctype = downloaded[0], downloaded[1]
+        final_url = downloaded[2] if len(downloaded) > 2 else url
+    else:
+        final_url = url
     if body[:5] == b"%PDF-":
         # 転送先が PDF だった。呼び手が「%PDF」で気づいて PDF として取り直す
         text = "%PDF"
@@ -499,8 +539,9 @@ def html_to_md(url: str, out: Path, body: bytes | None = None, ctype: str = "") 
                        encoding="utf-8", errors="replace")
         page.unlink(missing_ok=True)
         text = res.stdout if res else ""
+        text = resolve_markdown_links(text, final_url)
     else:
-        parser = _TextExtractor(url)
+        parser = _TextExtractor(final_url)
         parser.feed(decode_text(body, ctype))
         text = parser.text()
     out.write_text(text, encoding="utf-8")
@@ -548,14 +589,14 @@ def youtube_to_md(url: str, out: Path) -> str:
     手動の字幕を優先し（日本語→英語の順）、無ければ動画の元の言語の自動字幕。自動字幕は同じ文が
     次の区間にも繰り返し出るので、直前と同じ文は捨てる。
 
-    自動字幕は誤変換が多い（大陸塗りの試しで「線画」が「洗画」）。どちらを使ったかを
+    自動字幕は誤変換が多い（大陸塗りの試行で「線画」が「洗画」）。どちらを使ったかを
     見出しに残し、読み手が引用を動画で確かめるべきか分かるようにする。手動と自動は
     同じファイル名で出てくるので、まず手動だけで取り、無いときだけ自動で取り直す。
     題名の出力は --encoding で UTF-8 に決める。Windows でパイプに出すと、決めない限り cp932 になる。
 
     自動字幕は、動画の元の言語のもの（en-orig など）だけを取る。ja,en を指定すると、
     英語の動画では ja が機械翻訳の字幕になり、YouTube はそれに 429 Too Many Requests を返す。
-    yt-dlp はそこで止まり、英語の字幕も残さない（テスラの自動運転の試しで YouTube が3本とも
+    yt-dlp はそこで止まり、英語の字幕も残さない（テスラの自動運転の試行で YouTube が3本とも
     落ちた・2026-10-19）。ja-orig,en-orig の指定でも足りない。AI の吹き替えが付いた動画では
     吹き替えの音声にも ja-orig が付き、中身は翻訳になる（CVPR の講演 jPCV4GKX9Dw）。そこで手動の回で
     動画の言語（元の音声の言語）も出させ、自動の回ではその言語の -orig だけを指定する。
@@ -617,8 +658,9 @@ def clean(s: str) -> str:
 
     他人が決めた文字列（本文・転送先の URL・HTTP のエラーの文）は、1行の出力の列や行を増やしたり、
     端末を操ったりできる（2026-10-20 の2回目のレビュー）。
+    文字の向きを変える制御文字（U+202E など）と幅の無い空白も消す。ZWJ・ZWNJ は絵文字や一部の文字で要るので残す。
     """
-    return re.sub(r"[\s\x00-\x1f\x7f-\x9f  ]+", " ", s).strip()
+    return re.sub(r"[\s\x00-\x1f\x7f-\x9f  \u200b\u200e\u200f\u202a-\u202e\u2060-\u2069\ufeff]+", " ", s).strip()
 
 
 def first_line(text: str) -> str:
@@ -684,10 +726,12 @@ def fetch_source(sources: Path, name: str, url: str, destination: Path) -> int:
         return 0
 
     try:
-        body, ctype = download(url)
+        downloaded = download(url)
     except Exception as e:  # HTTP エラーも接続失敗も、呼び手にとっては同じ「取れない」
         print(f"FAIL\t{name}\t{type(e).__name__}: {clean(str(e))}")
         return 1
+    body, ctype = downloaded[0], downloaded[1]
+    final_url = downloaded[2] if len(downloaded) > 2 else url
     # メディアタイプは大文字と小文字を区別しない。「Text/Plain」で返すサーバーもある
     ctype = ctype.lower()
 
@@ -714,7 +758,7 @@ def fetch_source(sources: Path, name: str, url: str, destination: Path) -> int:
         kept.write_text(text, encoding="utf-8")
     elif "html" in ctype or body.lstrip()[:1] == b"<":
         kept = sources / f"{name}.md"
-        text = html_to_md(url, kept, body, ctype)
+        text = html_to_md(final_url, kept, body, ctype)
         saved = kept
         # HAL は、ブラウザの名乗りには閲覧用の HTML を、それ以外の名乗りには PDF 本体を返す。
         # 前は ax の取り直しで PDF を受け取っていた。いまは名乗りを変えて自分で頼み直す。
@@ -743,7 +787,7 @@ def fetch_source(sources: Path, name: str, url: str, destination: Path) -> int:
         print(f"FAIL\t{name}\t扱えない形式: {ctype or '不明'}")
         return 1
 
-    # arXiv の PDF は pdftotext で本文が0文字になることがある（2026-10-09 の試しで
+    # arXiv の PDF は pdftotext で本文が0文字になることがある（2026-10-09 の試行で
     # COLE・Accordion）。同じ論文の HTML 版なら取れたので、短いときだけ切り替える。
     paper = arxiv_id(url)
     if paper and len(text) < MIN_TEXT_CHARS:

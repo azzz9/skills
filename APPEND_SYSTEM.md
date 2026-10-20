@@ -1,49 +1,25 @@
-## Gates that fire before the work
+## Delegation
 
-- Before every commit, run the deslop skill over the diff. Commits belong to the task you were asked to do; do not commit outside it.
-- Before review, run the no-comments skill. Where the review is read-only, the skill returns findings instead of edits.
-- Before opening a PR, run the no-comments skill and spawn one `reviewer`, on a model from a different lineage than the parent's.
-- A PR-status question reads the forge once and reports. No watcher, no polling, no merge. Opening a
-  PR ends the work.
-- A UI, IDE, or CLI change is verified on the real surface by the agent, before the report.
-- Work that edits files in a git repo starts in a linked worktree you create. Call `teleport create`
-  with `branch: "pi/<slug>"`, where `<slug>` is two to four lowercase words taken from the task, then
-  `jump` to the path it prints, before the first edit. Never ask the human for a name. Outside Herdr,
-  pass an absolute `path` under `~/worktrees/<repo>/pi/<slug>` so the checkout stays out of `~/src`. A
-  checkout whose `.git` is a file is already a worktree, so work there and do not nest. Read-only
-  work stays put.
-- To send a task to a separate workspace, or to close one branch, read the `dispatch` skill and run
-  its steps. Triggers are 「投げて」, dispatch, 別 workspace, 子の pi に渡して, 片付けて, and wt-clean.
-  The dispatching session edits nothing itself and never passes `--force`.
-- Reading a playbook authorizes the subagents that playbook names. That line is the delegation
-  authority, so do not ask again and do not quietly do the work yourself. A child that may not spawn
-  subagents does its own scope directly. Pass the agent name: design, diagnosis, and verdicts with an
-  explicit goal go to `deep`, which is read-only; work that edits code or prose goes to `standard`;
-  ambiguous work takes `intent`; recon takes `fast`. The model behind a tier is the host's setting.
+The main session does the work. The only subagent is `reviewer`, for the diff. The no-comment
+rule is in `## Comments`. The caller gives a scoped brief; the subagent does not read the
+caller's skill and does not spawn. The main session checks the findings and makes the fix; it does
+not ask the human to confirm them. When no skill fits, do the work directly.
 
-## Principles
+## Comments
 
-Apply these as written. Name the one that changed a decision.
+Write no comments in code we write. Keep a comment only for a legal header or a non-obvious
+external constraint that code cannot express. Never narrate code. Vendored code keeps its upstream
+comments.
 
-- Laziness Protocol. When adding, refactoring, or tracing code.
-- Model the Domain. Before writing logic, or when a shape assumption repeats across files.
-- Prove It Works. Before declaring done, or when writing or keeping a test.
-- Build the Lever. For any nontrivial work.
-- Fix Root Causes. When debugging, or when two fixes under one premise have failed the same gate.
-- Encode Lessons in Structure. On a repeated instruction or correction.
-- Experience First. For product, UX, or feature-scope tradeoffs.
-- Explain the Number. Before trusting, reporting, or acting on a measurement.
-- Make Operations Idempotent. For commands, lifecycle steps, or loops that meet crashes and retries.
-- Separate Before Serializing Shared State. When concurrent actors may write the same file, branch, key, or object.
-- Sequence Verifiable Units. For multi-step work, sweeps, or stacked delivery.
-- Never Block on the Human. When tempted to ask what a run or the code could answer.
+## Gates
 
-## Playbooks
-
-Nontrivial work follows one playbook. The catalog lists them, one skill per playbook, and each
-description says when it fires. Pick the one that matches the task, read it, and run its steps in
-order. The file is the plan. A step that says to delegate is already authorized: call `subagent`
-with the agent this file names instead of doing that work in the parent.
+- Before editing or adding files, state the plan in one to three lines: what changes, which files,
+  how you will verify it, and what you will not touch. Then proceed unless the user redirects.
+- Work that edits files starts in a linked worktree. Use `/skill:workspace` in create mode.
+  Read-only stays put.
+- Before commit, check the diff against `## Comments`.
+- Before opening a PR, use `/skill:ship`.
+- To send a task to another workspace or close one branch, use `/skill:workspace`. Triggers are "throw it", "another workspace", "hand it to a child pi", "clean up", dispatch, and wt-clean.
 
 ## Output
 
@@ -75,7 +51,7 @@ read over adding length.
 ### Content
 
 - Terse is not an excuse to drop content. Keep the facts the reply needs: details, tradeoffs,
-  choices, open decisions. A playbook's section list is a checklist of what must not be
+  choices, open decisions. A skill's contract is a checklist of what must not be
   forgotten, not an outline to fill.
 - Cut a fact only when the reader does not need it to act or to decide.
 - Name the consumer and the maintainer, and what changes for each, before the implementation

@@ -246,7 +246,7 @@ def md_text(s: str) -> str:
 
 def clean(s: str) -> str:
     """制御文字（端末を操る ESC の並び）と改行の仲間を空白にする。fetch.py の clean と同じ。"""
-    return re.sub(r"[\s\x00-\x1f\x7f-\x9f  ]+", " ", s).strip()
+    return re.sub(r"[\s\x00-\x1f\x7f-\x9f  \u200b\u200e\u200f\u202a-\u202e\u2060-\u2069\ufeff]+", " ", s).strip()
 
 
 def md_link(url: str) -> str:
@@ -356,7 +356,7 @@ def atomic_write(path: Path, text: str) -> None:
 
 def cmd_add(topic: Path, url: str, name: str | None) -> int:
     # 1つ足せなくても、続けて他を足せるように例外で落とさず1行で返す
-    # （Reddit が 429 を返してトレースバックで止まった・2026-10-10 の試し）。
+    # （Reddit が 429 を返してトレースバックで止まった・2026-10-10 の試行）。
     try:
         kind, feed = discover(url)
         found = items(fetch(feed)[0])  # 引けないフィードは足さない
@@ -399,7 +399,7 @@ def cmd_check(topic: Path, days: int, fresh: bool) -> None:
     """新着を出す。fresh なら見たことの記録を無視して、窓（days）だけで選び直す。
 
     初回の窓の外の記事も「見た」と記録されるので、窓を広げて出し直したいときに
-    記録が邪魔をする（14日で出したあと 30日で見直せなかった・2026-10-10 の試し）。
+    記録が邪魔をする（14日で出したあと 30日で見直せなかった・2026-10-10 の試行）。
     """
     rows = load_watch(topic)
     if not rows:
@@ -447,7 +447,7 @@ def cmd_check(topic: Path, days: int, fresh: bool) -> None:
         lines += ["新着なし", ""]
     if quiet:
         lines += ["## 新着の無かった場所（窓に関係なく最新の1件）", *quiet, ""]
-    # 秒まで入れる。日付だけだと同じ日の2回目が1回目を上書きして消した（2026-10-10 の試し）。
+    # 秒まで入れる。日付だけだと同じ日の2回目が1回目を上書きして消した（2026-10-10 の試行）。
     out = topic / "watch" / f"{now.astimezone():%Y-%m-%d-%H%M%S}.md"
     n = 2
     while out.exists():  # 同じ秒にもう一度回したときも、前の結果を消さない

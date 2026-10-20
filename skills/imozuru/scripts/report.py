@@ -13,7 +13,7 @@ extracting＝抜き書き。主張ごとに原文をそのまま切り出して�
     report.py <topic_dir>         … <topic_dir>/extracts.json → <topic_dir>/report.html
     report.py <topic_dir> --check … 照合だけして HTML は作らない
 
-extracts.json の形（例は ../examples/demo/extracts.json）:
+extracts.json の形（例はリポジトリの examples/demo/extracts.json）:
     {"title", "question", "stopped",
      "claims": [{"claim", "status": "付いた|一部だけ|付かなかった", "note"?,
                  "quotes": [{"file", "line", "end"?, "text", "ja"?, "mark"?, "context_note"?}]}],

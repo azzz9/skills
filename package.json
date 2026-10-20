@@ -1,7 +1,7 @@
 {
 	"name": "@azzz9/skills",
 	"version": "0.6.0",
-	"description": "The rules, the skills, and the playbooks an agent works from on this machine, as a pi package.",
+	"description": "The rules, the skills, and the agents used on this machine, as a pi package.",
 	"type": "module",
 	"license": "MIT",
 	"author": "azzz9",
@@ -21,13 +21,10 @@
 		"pi-extension",
 		"skills",
 		"workflow",
-		"principles",
-		"subagents",
-		"unslop"
+		"subagents"
 	],
 	"files": [
 		"skills/",
-		"agents/",
 		"extensions/",
 		"AGENTS.md",
 		"APPEND_SYSTEM.md",
@@ -45,12 +42,7 @@
 		],
 		"skills": [
 			"./skills"
-		],
-		"subagents": {
-			"agents": [
-				"./agents"
-			]
-		}
+		]
 	},
 	"scripts": {
 		"test": "node --test scripts/*.test.mjs",

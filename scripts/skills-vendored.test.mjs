@@ -25,8 +25,6 @@ test("a vendored skill keeps its upstream license beside it", () => {
 	}
 });
 
-// The vendored scripts are copies of upstream code. Parse every one and run the demo that ships
-// with imozuru, so a broken copy surfaces here instead of during a research run.
 test("the vendored imozuru scripts parse and verify their demo", (t) => {
 	const skill = join(SKILLS, "imozuru");
 	const scripts = readdirSync(join(skill, "scripts"))
@@ -48,4 +46,12 @@ test("the vendored imozuru scripts parse and verify their demo", (t) => {
 		{ encoding: "utf8" },
 	);
 	assert.equal(check.status, 0, check.stderr || check.stdout);
+});
+
+test("the vendored yomiyasu keeps its license and vendor record", () => {
+	const dir = join(SKILLS, "yomiyasu");
+	for (const file of ["SKILL.md", "LICENSE", "UNICODE-LICENSE.txt", "VENDOR.md"]) {
+		assert.ok(existsSync(join(dir, file)), `yomiyasu: missing ${file}`);
+	}
+	assert.ok(!existsSync(join(dir, "GUIDE.md")), "yomiyasu: GUIDE.md is not a skill file");
 });
