@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import test from "node:test";
@@ -22,4 +23,29 @@ test("a vendored skill keeps its upstream license beside it", () => {
 			`${entry.name}: vendored skill has no LICENSE`,
 		);
 	}
+});
+
+// The vendored scripts are copies of upstream code. Parse every one and run the demo that ships
+// with imozuru, so a broken copy surfaces here instead of during a research run.
+test("the vendored imozuru scripts parse and verify their demo", (t) => {
+	const skill = join(SKILLS, "imozuru");
+	const scripts = readdirSync(join(skill, "scripts"))
+		.filter((name) => name.endsWith(".py"))
+		.map((name) => join(skill, "scripts", name));
+	const python = spawnSync("python3", ["-V"]);
+	if (python.error) return t.skip("python3 is not installed");
+
+	const parse = spawnSync(
+		"python3",
+		["-c", "import ast, sys; [ast.parse(open(p, encoding='utf-8').read()) for p in sys.argv[1:]]", ...scripts],
+		{ encoding: "utf8" },
+	);
+	assert.equal(parse.status, 0, parse.stderr);
+
+	const check = spawnSync(
+		"python3",
+		[join(skill, "scripts", "report.py"), join(skill, "examples", "demo"), "--check"],
+		{ encoding: "utf8" },
+	);
+	assert.equal(check.status, 0, check.stderr || check.stdout);
 });
