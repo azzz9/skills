@@ -2,7 +2,7 @@
 
 - Before every commit, run `/skill:review` in slop mode over the diff. Commits belong to the task you were asked to do; do not commit outside it. Split commits by intent; do not bundle unrelated changes.
 - Before review, run `/skill:review` in comments mode. Where the review is read-only, stop after the findings and make no edits.
-- Before opening a PR, run `/skill:review` in comments mode and code mode, with one reviewer per review lane on a model from a different lineage than the caller's.
+- Before opening a PR, run `/skill:review` in comments mode and code mode over the full PR diff, with one reviewer per review lane on a model from a different lineage than the caller's.
 - A PR-status question reads the forge once and reports. No watcher, no polling, no merge. Opening a
   PR ends the work.
 - A UI, IDE, or CLI change is verified on the real surface by the agent, before the report.

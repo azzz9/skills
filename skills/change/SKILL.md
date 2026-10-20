@@ -28,9 +28,11 @@ description: "コードを変える、または新規に作る。機能追加、
 
 ## 終わり
 
+この review のスコープは今回の変更の diff だけ。PR の差分全体は `ship` が review する。
+
 1. 検証する。
-2. `review` の slop と comments を diff に通す。
-3. 大きい変更、設計判断、またはユーザーが求めたなら、`review` の code モードも通す。code モードは `reviewer` を lane ごとに使う。
+2. 今回の変更の diff だけを `review` の slop と comments に通す。
+3. 大きい変更、設計判断、またはユーザーが求めたなら、今回の変更の diff を `review` の code モードに通す。code モードは `reviewer` を lane ごとに使う。
 4. findings は直すか、直さない理由を書く。
 5. commit と PR は `ship` に渡す。
 

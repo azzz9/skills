@@ -30,8 +30,9 @@ Fourteen skills. Most are contracts with modes; yomiyasu, herdr, and hunk-review
 ## Delegation
 
 The pi session that reads a skill calls `subagent({ agent, task })`. The subagent gets a scoped brief, not the
-caller's skill. The caller reviews the diff and verifies the result. Local agents are `deep`,
-`standard`, `intent`, `fast`, and `comment-sicko`; `reviewer` comes from `pi-subagents`.
+caller's skill. The caller reviews the diff and verifies the result. `change` reviews its own diff; `ship`
+reviews the full PR diff. Local agents are `deep`, `standard`, `intent`, `fast`, and `comment-sicko`;
+`reviewer` comes from `pi-subagents`.
 
 ## Scope
 

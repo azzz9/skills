@@ -9,7 +9,7 @@ description: "commit と PR。commit は自動でよく、PR はユーザーが�
 
 - commit はタスクの終わりに自動でよい。PR はユーザーが求めたときだけ開く。
 - commit は Conventional Commits。`type(scope): subject`。小さく、順序立てる。
-- PR の前に `review` の comments モードと code モード。code モードは review lane ごとに reviewer を1人。
+- PR の前に `review` の comments モードと code モードを PR の差分全体（base から head）に通す。code モードは review lane ごとに reviewer を1人。
 - 委譲の形と agent の一覧は `../shared/references/delegation.md`。
 - PR title と body は `writing` の doc モードに従う。body は briefing。40行を超えたら切る。
 - PR は ready で開く。draft にしない。

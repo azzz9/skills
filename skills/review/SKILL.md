@@ -8,6 +8,7 @@ description: "diff のレビュー。コメントの削除、AI slop の除去�
 ## 契約
 
 - findings only。依頼なしに application code を編集しない。
+- スコープは呼び出し元が渡した diff。`change` からは今回の変更、`ship` からは PR の差分全体（base から head）。
 - 各 finding に file:line、severity、evidence を付ける。事実と推測を分ける。
 - read-only のレビューなら findings で止まる。
 - accepted finding の fix は範囲内。shape が要るなら `design` の sketch を1回。
@@ -18,9 +19,9 @@ description: "diff のレビュー。コメントの削除、AI slop の除去�
 
 選び方: `slop` は commit 前、`comments` は review 前、`code` は PR 前か大きい変更。`comments` と `code` は同時に使える。
 
-- **comments**: コメントを削る。`../shared/references/comments.md` の基準に合わないものを finding にする。`subagent` で `comment-sicko` に渡し、findings を検収する。`MUST KILL` は symbol を名指しする。
-- **slop**: 不要な comment、trusted path の defensive check、any cast、深い nesting、周囲と不整合な pattern を削る。
-- **code**: 一般のコードレビュー。PR 前、大きい変更、またはユーザーが求めたときに使う。intent paragraph と diff を `subagent` で `reviewer` に渡す。review lane ごとに1人、別 lineage。`reviewer` は pi-subagents 由来で、なければ止まる。findings を検収する。
+- **comments**: 渡された diff のコメントを削る。`../shared/references/comments.md` の基準に合わないものを finding にする。`subagent` で `comment-sicko` に渡し、findings を検収する。`MUST KILL` は symbol を名指しする。
+- **slop**: 渡された diff の不要な comment、trusted path の defensive check、any cast、深い nesting、周囲と不整合な pattern を削る。
+- **code**: 一般のコードレビュー。PR 前、大きい変更、またはユーザーが求めたときに使う。呼び出し元が渡した diff を `subagent` で `reviewer` に渡す。`ship` からは PR の差分全体、`change` からは今回の変更。intent paragraph も渡す。review lane ごとに1人、別 lineage。`reviewer` は pi-subagents 由来で、なければ止まる。findings を検収する。
 
 ## 停止
 
