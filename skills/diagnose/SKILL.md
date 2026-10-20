@@ -19,9 +19,9 @@ description: "不具合や性能異常の診断。failing repro、live profile�
 
 選び方: 原因が分からないなら `live` か `artifact`。分かったら `fix`。`fix` だけを先に選ばない。
 
-- **live**: 動いている process を instrument する。CPU、heap、CDP。
-- **artifact**: 取得済みの trace を parse する。sqlite など query できる形にしてから読む。
-- **fix**: `design` の `## 方針` を出してから、repro、bisect、fix、same surface で verify。
+- **live** (deep): 動いている process を instrument する。CPU、heap、CDP。
+- **artifact** (deep): 取得済みの trace を parse する。sqlite など query できる形にしてから読む。
+- **fix** (standard): `design` の `## 方針` を出してから、repro、bisect、fix、same surface で verify。
 
 ## 停止
 

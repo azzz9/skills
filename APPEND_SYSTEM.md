@@ -17,8 +17,8 @@
   its create or clean mode. Triggers are 「投げて」, dispatch, 別 workspace, 子の pi に渡して, 片付けて, and wt-clean.
   The dispatching session edits nothing itself and never passes `--force` in create mode.
 - Design, diagnosis, and verdicts with an explicit goal go to `deep`, which is read-only. Work that edits
-  code or prose goes to `standard` or `intent`. Ambiguous work takes `intent`, routine delegation
-  `standard`, and recon `fast`. The model behind a tier is the host's setting.
+  code or prose goes to `standard` or `intent`. Mechanical edits take `fast`. Ambiguous work takes
+  `intent`, routine delegation `standard`, and recon `fast`. The model behind a tier is the host's setting.
 - The pi session that reads a skill calls `subagent({ agent, task })` with a scoped brief. The
   subagent does not read the caller's skill and does not spawn subagents. The caller reviews the diff
   and verifies the result.
@@ -42,10 +42,10 @@ Apply these as written. Name the one that changed a decision.
 
 ## Skills
 
-Nontrivial work follows one skill from the catalog. Each skill has a mode table and a line that says
-whether modes are exclusive, sequential, or combined. Pick the mode or modes that match the task.
-Read the skill, then run the mode. The skill is the plan. When no skill fits, use `/skill:plan` in
-novel mode.
+Nontrivial work follows one skill from the catalog. Each skill has a mode table, a line that says
+whether modes are exclusive, sequential, or combined, and a parenthesized agent for each mode. A mode
+marked `subagent なし` stays with the caller. Pick the mode or modes that match the task. Read the
+skill, then run the mode. The skill is the plan. When no skill fits, use `/skill:plan` in novel mode.
 
 ## Output
 

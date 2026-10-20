@@ -18,8 +18,8 @@ description: "性能の改善。一度きりの遅さの修正と、指標を継
 
 選び方: 1つだけ選ぶ。一度きりなら `one-off`、継続的な改善なら `loop`。
 
-- **one-off**: 1つの遅さを trace から特定し、fix する。
-- **loop**: 1つの metric を target まで上げる。hypothesis、change、before、after、verdict を `../shared/references/decision-log.md` の形式で別の TSV に残す。
+- **one-off** (deep → standard): 1つの遅さを trace から特定し、fix する。
+- **loop** (standard; mechanical は fast): 1つの metric を target まで上げる。hypothesis、change、before、after、verdict を `../shared/references/decision-log.md` の形式で別の TSV に残す。
 
 ## 停止
 

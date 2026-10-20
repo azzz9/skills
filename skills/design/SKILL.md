@@ -40,9 +40,9 @@ design 自身の sketch と prototype は、この skill の成果物として�
 
 選び方: 1つを主モードにする。小さな修正はモードを選ばず、`## 方針` だけでよい。`arena` は候補を並べるので、`sketch` を含むことがある。
 
-- **sketch**: 型、signature、module 境界を `not implemented` で書く。
-- **arena**: 呼び出し元の pi が `subagent` で `standard` を2から3個、別モデルで走らせる。base を選び、他案の良い部分を graft する。`deep` は read-only なので実装候補にしない。
-- **prototype**: 使い捨ての artifact で決定を安く確かめる。visual は HTML/CSS/JS、behavior は最小 script。
+- **sketch** (deep; 呼び出し元が書く): 型、signature、module 境界を `not implemented` で書く。
+- **arena** (standard): 呼び出し元の pi が `subagent` で `standard` を2から3個、別モデルで走らせる。base を選び、他案の良い部分を graft する。`deep` は read-only なので実装候補にしない。
+- **prototype** (standard): 使い捨ての artifact で決定を安く確かめる。visual は HTML/CSS/JS、behavior は最小 script。
 
 ## 停止
 

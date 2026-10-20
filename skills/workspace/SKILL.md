@@ -20,8 +20,8 @@ description: "作業用 worktree と Herdr workspace の作成、終了。編集
 
 選び方: 1回に1つ。`create` と `clean` は別の操作。
 
-- **create**: 大本の repo から worktree を作り、独立したタスクを child に渡す。手順は `references/herdr-workspace.md`。いま worktree の中なら、そこで作業する。
-- **clean**: 1ブランチは `wt-clean pi/<slug> --repo <repo root>`。複数は `scripts/worktree-audit.sh` で候補を出し、未コミットと使用中を確認してから削除する。
+- **create** (subagent なし; Herdr + child pi): 大本の repo から worktree を作り、独立したタスクを child に渡す。手順は `references/herdr-workspace.md`。いま worktree の中なら、そこで作業する。
+- **clean** (subagent なし; Herdr): 1ブランチは `wt-clean pi/<slug> --repo <repo root>`。複数は `scripts/worktree-audit.sh` で候補を出し、未コミットと使用中を確認してから削除する。
 
 ## 停止
 

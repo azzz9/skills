@@ -19,14 +19,15 @@ description: "文章を書く、直す、残す。docs、PR、commit、memo に�
 - `<スキル配置ディレクトリ>` は `../yomiyasu/` を指す。
 - 推敲の検査は `../yomiyasu/scripts/yomiyasu_check.py` と `yomiyasu_lint.py` を使う。
 - yomiyasu の出力フォーマットは、ユーザーが推敲の形式を求めたときだけ使う。通常の返答は Output に従う。
+- 委譲するなら、brief に `../yomiyasu/SKILL.md` を読むよう書く。
 
 ## モード
 
 選び方: 1つを主モードにする。`doc` は新規、`edit` は既存、`memo` はログから。
 
-- **doc**: Diátaxis のどれか1つ。how-to、explanation、reference、tutorial を混ぜない。
-- **edit**: 既存の文章を直す。意味と事実を変えない。
-- **memo**: 会話ログから決定と再利用できる lesson を残す。transcript を写さない。
+- **doc** (intent): Diátaxis のどれか1つ。how-to、explanation、reference、tutorial を混ぜない。
+- **edit** (intent; mechanical は fast): 既存の文章を直す。意味と事実を変えない。
+- **memo** (intent): 会話ログから決定と再利用できる lesson を残す。transcript を写さない。
 
 ## 停止
 

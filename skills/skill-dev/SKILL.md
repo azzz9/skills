@@ -18,8 +18,8 @@ disable-model-invocation: true
 
 選び方: 新規作成は `author`、その後に `evaluate`。評価だけなら `evaluate`。
 
-- **author**: skill を書く、または直す。voice は既存の skill に合わせる。
-- **evaluate**: candidate に eval、test、judge、score、arena の語を見せない。prompt は organic な依頼にする。self-report を grade しない。1人の judge が両方の出力を同じ尺度で採点する。
+- **author** (intent): skill を書く、または直す。voice は既存の skill に合わせる。
+- **evaluate** (deep): candidate に eval、test、judge、score、arena の語を見せない。prompt は organic な依頼にする。self-report を grade しない。1人の judge が両方の出力を同じ尺度で採点する。
 
 ## 停止
 

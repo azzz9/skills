@@ -20,8 +20,8 @@ description: "複数 phase または複数 PR の plan。1つの変更が大き�
 
 選び方: 1つだけ選ぶ。`multi-phase` は複数PR、`novel` は既存の skill が合わないとき。
 
-- **multi-phase**: phase と PR に分ける。各 phase に done の predicate と証拠を置く。
-- **novel**: 既存の skill が合わないとき、作業そのものを設計する。phase、risk、decision log を先に決める。log は `../shared/references/decision-log.md` に従う。
+- **multi-phase** (standard): phase と PR に分ける。各 phase に done の predicate と証拠を置く。
+- **novel** (intent): 既存の skill が合わないとき、作業そのものを設計する。phase、risk、decision log を先に決める。log は `../shared/references/decision-log.md` に従う。
 
 ## 停止
 

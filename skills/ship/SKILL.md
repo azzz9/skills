@@ -19,8 +19,8 @@ description: "commit と PR。commit は自動でよく、PR はユーザーが�
 
 選び方: commit してから `pr`。PR だけを頼まれたら `pr` から。
 
-- **commit**: 差分を確認し、関係ない変更を除外し、1つの意図にまとめる。複数の意図があるなら commit を分ける。
-- **pr**: title、body、review、ready。stack は parent branch を base にする。
+- **commit** (fast): 差分を確認し、関係ない変更を除外し、1つの意図にまとめる。複数の意図があるなら commit を分ける。
+- **pr** (呼び出し元; reviewer と comment-sicko): title、body、review、ready。stack は parent branch を base にする。
 
 ## 停止
 

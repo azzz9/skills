@@ -17,10 +17,10 @@ description: "コードや設計を理解する。仕組み、設計理由、初
 
 選び方: 1つを主モードにする。必要なら `mechanism` と `rationale` を順に使う。
 
-- **mechanism**: どう動くか。runtime flow、component、data shape を辿る。
-- **rationale**: なぜこうなったか。commit、issue、設計文書、障害履歴を読む。
-- **beginner**: 用語、背景、仕組み、手順、現状の順で説明する。
-- **decision**: 選択肢を比較し、tradeoff table と推奨を出す。
+- **mechanism** (deep): どう動くか。runtime flow、component、data shape を辿る。
+- **rationale** (deep): なぜこうなったか。commit、issue、設計文書、障害履歴を読む。
+- **beginner** (intent): 用語、背景、仕組み、手順、現状の順で説明する。
+- **decision** (deep): 選択肢を比較し、tradeoff table と推奨を出す。
 
 ## 停止
 
