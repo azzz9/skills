@@ -21,7 +21,7 @@ description: "不具合や性能異常の診断。failing repro、live profile�
 
 - **live**: 動いている process を instrument する。CPU、heap、CDP。
 - **artifact**: 取得済みの trace を parse する。sqlite など query できる形にしてから読む。
-- **fix**: repro、bisect、fix、same surface で verify。
+- **fix**: `design` の `## 方針` を出してから、repro、bisect、fix、same surface で verify。
 
 ## 停止
 

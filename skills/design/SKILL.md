@@ -26,9 +26,19 @@ description: "コードを書く前の設計。型、signature、module 境界�
 
 小さい修正は2から3行でよい。複数手順ならステップを並べる。方針が変わったら、続ける前に何が変わったかを言う。
 
+design 自身の sketch と prototype は、この skill の成果物として書く。production の変更ではないので、plan gate を再度開かない。
+
+## 委譲
+
+呼び出し元の pi が `subagent` を呼ぶ。形は `../shared/references/delegation.md`。
+
+- `sketch` は `deep` に渡してよい。read-only の設計案を返させる。
+- `prototype` は `standard` に渡してよい。捨てる artifact なので production code ではない。
+- 呼び出し元が案と diff を読み、決定する。子の自己申告を信じない。
+
 ## モード
 
-選び方: 1つを主モードにする。`arena` は候補を並べるので、`sketch` を含むことがある。
+選び方: 1つを主モードにする。小さな修正はモードを選ばず、`## 方針` だけでよい。`arena` は候補を並べるので、`sketch` を含むことがある。
 
 - **sketch**: 型、signature、module 境界を `not implemented` で書く。
 - **arena**: 呼び出し元の pi が `subagent` で `standard` を2から3個、別モデルで走らせる。base を選び、他案の良い部分を graft する。`deep` は read-only なので実装候補にしない。

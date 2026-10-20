@@ -1,6 +1,6 @@
 ## Gates that fire before the work
 
-- Before editing or adding files, show the plan in the `design` skill's `## 方針` format. Then proceed
+- Before editing or adding files, run `/skill:design` and show its `## 方針` plan. Then proceed
   unless the user redirects. If the plan changes, say what changed before continuing.
 - Before every commit, run `/skill:review` in slop mode over the diff. Commits belong to the task you were asked to do; do not commit outside it. Split commits by intent; do not bundle unrelated changes.
 - Before review, run `/skill:review` in comments mode. Where the review is read-only, stop after the findings and make no edits.
