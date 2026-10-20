@@ -177,7 +177,26 @@ BROWSER_UA = "Mozilla/5.0 imozuru"
 PLAIN_UA = "imozuru"
 
 
-def download(url: str, user_agent: str = BROWSER_UA) -> tuple[bytes, str, str]:
+class Download:
+    """The body, content type, and final URL of a fetch."""
+
+    def __init__(self, body: bytes, ctype: str, final_url: str) -> None:
+        self.body = body
+        self.ctype = ctype
+        self.final_url = final_url
+
+    def __iter__(self):
+        yield self.body
+        yield self.ctype
+
+    def __getitem__(self, index: int):
+        return (self.body, self.ctype, self.final_url)[index]
+
+    def __len__(self) -> int:
+        return 3
+
+
+def download(url: str, user_agent: str = BROWSER_UA) -> Download:
     """URL を取りに行き、本体と Content-Type を返す。
 
     MAX_BYTES を超える本体や、Content-Length に届かずに切れた本体は、取得ごと失敗にする。
@@ -194,7 +213,7 @@ def download(url: str, user_agent: str = BROWSER_UA) -> tuple[bytes, str, str]:
             raise ValueError(f"本体が {MAX_BYTES:,} バイトを超える")
         if isinstance(res.length, int) and res.length > 0:
             raise ValueError("本体が途中で切れた")
-        return body, res.headers.get("Content-Type", ""), res.geturl()
+        return Download(body, res.headers.get("Content-Type", ""), res.geturl())
 
 
 def pdf_save(url: str, out: Path) -> bool:
