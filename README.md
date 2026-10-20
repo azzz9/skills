@@ -46,6 +46,18 @@ subagent gets a scoped brief and returns findings. It does not read the caller's
 not spawn. The main session checks the findings and makes the fix, without asking the human to
 confirm them.
 
+## Clone a session into a pane
+
+`/clone-pane` copies the current session into an adjacent Herdr pane, so a side question never enters the
+main transcript. The clone runs `pi --fork <session file>` in the new pane. Pass `down` for a vertical
+split. It needs `HERDR_ENV=1` and a saved session.
+
+## Know when another session changed the worktree
+
+`external-changes.ts` lists files changed outside this session at the start of each run. It compares
+`git status` mtimes against the state after this session's last edit. A clone's edits are marked before
+the model reads the files.
+
 ## Scope
 
 Written for pi. Other harnesses are untested. The skills are plain `SKILL.md` files and the rules are
@@ -56,8 +68,8 @@ plain Markdown, so they may travel, but nothing here has been verified against a
 Two files load on every turn. [APPEND_SYSTEM.md](APPEND_SYSTEM.md) holds the delegation rules, the
 gates, the review gates, the skill routing, and the reply rules. [AGENTS.md](AGENTS.md) holds the turn
 gate, the language rule, and the git rules. Wire both into `~/.pi/agent/`, and add this repository as a
-package row so pi finds the skills and the agents. Install `pi-subagents` for `reviewer` and
-`subagent()`.
+package row so pi finds the skills, the agents, and `/clone-pane`. Install `pi-subagents` for
+`reviewer` and `subagent()`.
 
 ## License
 
