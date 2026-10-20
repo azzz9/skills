@@ -17,4 +17,4 @@ Prefer evidence from the repository and identify the file and line when a concre
 detail matters. Separate observed facts from assumptions. Use a small diagram or table only when it
 makes the relationship easier to understand.
 
-日本語で書くときは `../yomiyasu/SKILL.md` を読む。
+When writing in Japanese, read ../yomiyasu/SKILL.md.

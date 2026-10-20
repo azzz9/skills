@@ -18,8 +18,7 @@ that code cannot express. Never narrate code.
   Read-only stays put.
 - Before commit, check the diff against `## Comments`.
 - Before opening a PR, use `/skill:ship`.
-- To send a task to another workspace or close one branch, use `/skill:workspace`. Triggers are
-  「投げて」, dispatch, 別 workspace, 子の pi に渡して, 片付けて, and wt-clean.
+- To send a task to another workspace or close one branch, use `/skill:workspace`. Triggers are "throw it", "another workspace", "hand it to a child pi", "clean up", dispatch, and wt-clean.
 
 ## Output
 

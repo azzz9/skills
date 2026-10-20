@@ -35,8 +35,8 @@ Ten skills. Four are ours and six are vendored.
 `bro`, `retro`, and `yomiyasu` are hidden from the catalog and run through `/skill:<name>`. `bro` is
 a plain-language restatement procedure; `explain` is a single procedure; `imozuru` is a research
 procedure with a watch mode; `pr` is a vendored PR body template; `ship` and `workspace` have modes.
-`workspace` owns worktrees; `ship` owns commit and PR and runs the reviewer. The comment
-rule lives in `APPEND_SYSTEM.md`, under `## Comments`.
+`workspace` owns worktrees; `ship` owns commit and PR, runs the reviewer, and opens the PR ready
+after the review. The comment rule lives in `APPEND_SYSTEM.md`, under `## Comments`.
 
 ## Subagents
 

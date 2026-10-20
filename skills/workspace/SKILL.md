@@ -1,30 +1,30 @@
 ---
 name: workspace
-description: "作業用 worktree と Herdr workspace の作成、終了。編集作業の隔離、独立タスクの dispatch、worktree の掃除に使う。1タスク1 worktree。すでに worktree の中なら新しい worktree を作らない。"
+description: "Create and close worktrees and Herdr workspaces. Isolate editing work, dispatch an independent task, and clean up worktrees. One task per worktree. If you are already in a worktree, do not create another."
 ---
 
 # Workspace
 
-## 契約
+## Contract
 
-- 編集を伴う作業は linked worktree で始める。大本の repo では編集しない。Herdr が前提。`HERDR_ENV=1` を確認し、`herdr worktree create --cwd <repo root> --branch pi/<slug>` を使う。外なら止まる。read-only はそのまま。
-- worktree は大きいタスク専用ではない。編集を伴う作業を大本の repo から隔離するためのもの。
-- すでに worktree の中にいるなら、そこで作業する。新しい worktree を作らない。`create` は大本の repo からだけ行う。`git worktree list` の最初の checkout が大本で、自分のパスが違えば worktree の中。
-- **Separate Before Serializing Shared State.** 1タスク1 worktree。同時 writer を同じ cwd に置かない。
-- **Make Operations Idempotent.** create と clean は再実行しても壊れない。
-- dispatch は `subagent()` ではない。別の pi セッションで、child が checkout を持つ。dispatch する側は編集しない。独立したタスクだけを dispatch し、現在の worktree の子 worktree を作らない。
-- 掃除は irreversible。`git worktree list` のパスだけを使う。`wip:N` と使用中は pause。clean、merged、not-in-use は進む。
-- branch ref は残す。`wt-clean` で1ブランチを完全に閉じるときだけ、merge の証明があるときに branch も消す。
-- `create` では `--force` を渡さない。`clean` は未コミットを確認した後だけ `--force` を使う。
-- Herdr の workspace と pane を閉じる。
+- Work that edits files starts in a linked worktree. Do not edit in the main repo. Herdr is required. Check `HERDR_ENV=1` and run `herdr worktree create --cwd <repo root> --branch pi/<slug>`. Stop if you are outside Herdr. Read-only work stays put.
+- A worktree is not only for large tasks. It isolates editing work from the main repo.
+- If you are already in a worktree, work there. Do not create another. Run `create` only from the main repo. The first checkout in `git worktree list` is the main repo; a different path means you are in a worktree.
+- **Separate Before Serializing Shared State.** One task per worktree. Do not put concurrent writers in the same cwd.
+- **Make Operations Idempotent.** `create` and `clean` must be safe to rerun.
+- Dispatch is not `subagent()`. It is a separate pi session, and the child owns its checkout. The dispatcher does not edit. Dispatch only independent tasks; do not create a child worktree of the current worktree.
+- Cleaning is irreversible. Use only paths from `git worktree list`. Pause on `wip:N` and in-use worktrees. Proceed on clean, merged, and not-in-use.
+- Keep branch refs. Delete a branch only when `wt-clean` closes one branch completely and merge proof exists.
+- Do not pass `--force` to `create`. Use `--force` on `clean` only after checking for uncommitted changes.
+- Close the Herdr workspace and panes.
 
-## モード
+## Modes
 
-選び方: 1回に1つ。`create` と `clean` は別の操作。
+Choose one at a time. `create` and `clean` are separate operations.
 
-- **create** (subagent なし; Herdr + child pi): 大本の repo から worktree を作り、独立したタスクを child に渡す。手順は `references/herdr-workspace.md`。いま worktree の中なら、そこで作業する。
-- **clean** (subagent なし; Herdr): 1ブランチを完全に閉じるなら `wt-clean pi/<slug> --repo <repo root>`。branch ref を残すなら `git worktree remove` を使い、branch を消さない。複数は `scripts/worktree-audit.sh` で候補を出し、未コミットと使用中を確認してから削除する。
+- **create** (no subagent; Herdr + child pi): create a worktree from the main repo and hand an independent task to the child. Follow `references/herdr-workspace.md`. If you are already in a worktree, work there.
+- **clean** (no subagent; Herdr): to close one branch completely, run `wt-clean pi/<slug> --repo <repo root>`. To keep the branch ref, use `git worktree remove` and do not delete the branch. For several, list candidates with `scripts/worktree-audit.sh`, check uncommitted and in-use worktrees, then delete.
 
-## 停止
+## Stop
 
-- 未コミットの変更、pinned の chat、使用中の worktree は消さない。ユーザーに確認する。
+- Do not delete uncommitted changes, pinned chats, or in-use worktrees. Ask the user.

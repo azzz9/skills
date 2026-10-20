@@ -36,9 +36,9 @@ test("the no-comment rule is in APPEND", () => {
 test("ship uses reviewer only", () => {
 	const ship = readFileSync(join(SKILLS, "ship", "SKILL.md"), "utf8");
 	assert.match(ship, /reviewer/);
-	assert.match(ship, /人間の承認は待たない/);
-	assert.doesNotMatch(ship, /PR は求められたときだけ/);
-	assert.doesNotMatch(ship, /PR を求められていなければ/);
+	assert.match(ship, /Do not wait for human confirmation/);
+	assert.doesNotMatch(ship, /only when (asked|requested)/i);
+	assert.doesNotMatch(ship, /wait for (a )?(request|instruction)/i);
 	assert.doesNotMatch(ship, /comment-sicko/);
 });
 
@@ -53,7 +53,7 @@ test("every mode names an agent or subagent なし", () => {
 		const text = readFileSync(join(SKILLS, name, "SKILL.md"), "utf8");
 		const modes = text.split("## モード")[1]?.split("##")[0] ?? "";
 		for (const line of modes.split("\n").filter((line) => /^- \*\*/.test(line))) {
-			assert.match(line, /\((?:[^)]*)(?:subagent なし|reviewer)[^)]*\)/, `${name}: ${line}`);
+			assert.match(line, /\((?:[^)]*)(?:no subagent|reviewer)[^)]*\)/, `${name}: ${line}`);
 		}
 	}
 });

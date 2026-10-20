@@ -13,7 +13,7 @@ The user has asked for a **retrospective**. You are suggesting improvements to t
 
 ## Steps
 
-1. Follow the Output rules in `APPEND_SYSTEM.md`. 日本語で書くときは `/skill:yomiyasu` を読む。
+1. Follow the Output rules in `APPEND_SYSTEM.md`. When writing in Japanese, read `/skill:yomiyasu`.
 
 2. Read the primary sources for the session the user specifies. This may mean searching through session logs on this machine. If the user doesn't specify a session, default to the current one.
 
@@ -46,4 +46,4 @@ You have access to several files in the repo:
 - `AGENTS.md`: this file is pushed to the context window of any agent working in this repo. Use it sparingly, usually only for **navigation pointers** to other files.
 - `CODING_STANDARDS.md` (if it exists): this file is read during review, not implementation. Add **navigation pointers** to docs folders if the standards file gets more than 1,000 lines long.
 - Docs: use docs as references files, pointed to by other files. Look for existing docs before writing new ones.
-- Skills: use skills for docs (since their description goes into the agent's context window), or for user-invoked commands. Follow the repo's writing rules; 日本語は `/skill:yomiyasu`.
+- Skills: use skills for docs (since their description goes into the agent's context window), or for user-invoked commands. Follow the repo's writing rules; for Japanese, use `/skill:yomiyasu`.

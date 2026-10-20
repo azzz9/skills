@@ -1,29 +1,29 @@
 ---
 name: ship
-description: "commit と PR。commit は自動でよい。reviewer を回して ready で PR を開く。merge しない。"
+description: "Commit and PR. Commit is automatic. Run reviewer before the PR and open it ready. No merge."
 ---
 
 # Ship
 
-## 契約
+## Contract
 
-- commit はタスクの終わりに自動でよい。PR は reviewer の後に ready で開く。
-- **Sequence Verifiable Units.** commit は Conventional Commits。`type(scope): subject`。1意図1commit。
-- **Prove It Works.** commit の前に、変更に対応する test か実 surface の証拠を確認する。
-- commit の前に APPEND の no-comment rule を diff に当て、残るコメントは修正してから commit する。
-- PR の前に `reviewer` に base から head の full diff を渡す。review lane ごとに `reviewer` を1人。findings と no-comment rule は main pi が検収し、残るものは修正してから PR を開く。人間の承認は待たない。
-- PR title は Conventional Commits。body は `/skill:pr` の手順に従う。repo に PR template があればその構造を使い、無ければ `pr` の Summary、Evidence、Merge Danger を使う。どちらも `/skill:yomiyasu` で書く。
-- PR は ready で開く。draft にしない。
-- 開いたら終わり。merge しない。watcher を作らない。status は forge を1回読む。
+- Commit at the end of the task is automatic. Open the PR after the reviewer and ready.
+- **Sequence Verifiable Units.** Use Conventional Commits. `type(scope): subject`. One intent per commit.
+- **Prove It Works.** Before commit, confirm a test or real-surface evidence for the change.
+- Before commit, apply the no-comment rule in APPEND to the diff; fix remaining comments.
+- Before the PR, pass the base..head full diff to `reviewer`. One reviewer per review lane. The main pi checks the findings and the no-comment rule, fixes what remains, and opens the PR. Do not wait for human confirmation.
+- PR title: Conventional Commits. Body: follow `/skill:pr`. Use the repo's PR template if it exists; otherwise use `pr`'s Summary, Evidence, and Merge Danger. Write the prose with `/skill:yomiyasu`.
+- Open the PR ready, not as a draft.
+- Stop after opening. Do not merge. Do not create a watcher. Read the status once.
 
-## モード
+## Modes
 
-選び方: commit してから `pr`。PR だけを頼まれたら `pr` から。
+Choose: commit, then `pr`. If only the PR is requested, start from `pr`.
 
-- **commit** (subagent なし): 差分を確認し、関係ない変更を除外し、1つの意図にまとめる。複数の意図があるなら commit を分ける。
-- **pr** (`reviewer`): title、body、full diff の検証、ready。stack は parent branch を base にする。
+- **commit** (no subagent): inspect the diff, exclude unrelated changes, group one intent. Split if multiple intents.
+- **pr** (`reviewer`): title, body, full-diff review, ready. Stack uses the parent branch as base.
 
-## 停止
+## Stop
 
-- findings が残るなら、修正するまで commit も PR もしない。
-- PR を開いたら、URL を報告して止まる。
+- If findings remain, do not commit or open the PR until they are fixed.
+- After opening the PR, report the URL and stop.
