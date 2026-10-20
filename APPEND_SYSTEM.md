@@ -2,7 +2,8 @@
 
 The main session does the work. The only subagent is `reviewer`, for the diff. The no-comment
 rule is in `## Comments`. The caller gives a scoped brief; the subagent does not read the
-caller's skill and does not spawn. The caller checks the findings and makes the fix. When no skill fits, do the work directly.
+caller's skill and does not spawn. The main session checks the findings and makes the fix; it does
+not ask the human to confirm them. When no skill fits, do the work directly.
 
 ## Comments
 

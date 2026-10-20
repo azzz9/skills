@@ -13,6 +13,7 @@ test("the always-on rules use the reviewer", () => {
 	assert.ok(!/^## Orchestrator$/m.test(append), "APPEND still has the orchestrator section");
 	assert.match(append, /^## Delegation$/m);
 	assert.match(append, /reviewer/);
+	assert.match(append, /does\s+not\s+ask the human to confirm/);
 	assert.doesNotMatch(append, /comment-sicko/);
 });
 
@@ -35,6 +36,9 @@ test("the no-comment rule is in APPEND", () => {
 test("ship uses reviewer only", () => {
 	const ship = readFileSync(join(SKILLS, "ship", "SKILL.md"), "utf8");
 	assert.match(ship, /reviewer/);
+	assert.match(ship, /人間の承認は待たない/);
+	assert.doesNotMatch(ship, /PR は求められたときだけ/);
+	assert.doesNotMatch(ship, /PR を求められていなければ/);
 	assert.doesNotMatch(ship, /comment-sicko/);
 });
 

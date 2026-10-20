@@ -43,7 +43,8 @@ rule lives in `APPEND_SYSTEM.md`, under `## Comments`.
 The main session does the work. The only subagent is `reviewer`, for the diff. The no-comment
 rule lives in `APPEND_SYSTEM.md`. There is no orchestrator, scout, worker, or tier ladder. Each
 subagent gets a scoped brief and returns findings. It does not read the caller's skill and does
-not spawn. The caller checks the findings and makes the fix.
+not spawn. The main session checks the findings and makes the fix, without asking the human to
+confirm them.
 
 ## Scope
 
