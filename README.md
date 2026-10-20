@@ -29,18 +29,16 @@ Seven skills. Three are ours and four are vendored.
 
 `yomiyasu` is hidden from the catalog and runs through `/skill:yomiyasu`. `explain` is a single
 procedure; `imozuru` is a research procedure with a watch mode; `ship` and `workspace` have modes.
-`workspace` owns worktrees; `ship` owns commit and PR. The comment guard lives in
-`skills/shared/references/comments.md`.
+`workspace` owns worktrees; `ship` owns commit and PR and runs the two review agents. The comment
+rules live in `skills/shared/references/comments.md`.
 
-## Orchestration
+## Subagents
 
-The main pi session is the orchestrator. It keeps the goal, does the main work, and dispatches only
-bounded, independent subtasks to `scout` (read-only) or `worker` (edit). Each subagent gets a
-self-contained brief and returns distilled findings. It does not read the caller's skill and does
-not spawn. The orchestrator synthesizes and verifies on the real surface.
-
-There is no tier ladder, no `reviewer`, and no `comment-sicko`. The comment guard is a pre-commit
-check in `ship`, backed by `skills/shared/scripts/comment-guard.sh`.
+The main session does the work. Subagents are only for review. `comment-sicko` removes comments
+that fail `skills/shared/references/comments.md`; `reviewer` reviews the diff. There is no
+orchestrator, scout, worker, or tier ladder. Each subagent gets a scoped brief and returns findings.
+It does not read the caller's skill and does not spawn. The caller checks the findings and makes the
+fix.
 
 ## Scope
 
@@ -49,10 +47,11 @@ plain Markdown, so they may travel, but nothing here has been verified against a
 
 ## Install
 
-Two files load on every turn. [APPEND_SYSTEM.md](APPEND_SYSTEM.md) holds the orchestrator rules, the
-gates, the comment guard, the skill routing, and the reply rules. [AGENTS.md](AGENTS.md) holds the turn
+Two files load on every turn. [APPEND_SYSTEM.md](APPEND_SYSTEM.md) holds the delegation rules, the
+gates, the review gates, the skill routing, and the reply rules. [AGENTS.md](AGENTS.md) holds the turn
 gate, the language rule, and the git rules. Wire both into `~/.pi/agent/`, and add this repository as a
-package row so pi finds the skills and the agents. Install `pi-subagents` for `subagent()`.
+package row so pi finds the skills and the agents. Install `pi-subagents` for `reviewer` and
+`subagent()`.
 
 ## License
 

@@ -19,6 +19,6 @@ The reply rules live in `APPEND_SYSTEM.md`, "Output". Read them there.
 - Commit automatically when the task is done. Use Conventional Commits.
 - Split changes into one commit per intent. Do not bundle unrelated changes.
 - Push only when explicitly requested.
-- Before opening a PR, run the comment guard and verify the full diff against explicit criteria. Use `/skill:ship`.
+- Before opening a PR, run `reviewer` and `comment-sicko` on the full diff and act on the findings. Use `/skill:ship`.
 - Never add a `Co-authored-by:` trailer: the author is always the human. A trailer
   also registers the agent as a GitHub contributor on the repository.

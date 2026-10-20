@@ -1,22 +1,9 @@
-## Orchestrator
+## Delegation
 
-The main pi session is the orchestrator. It owns the goal, the decomposition, the final output, and
-the verification. It does the main work itself and delegates only independent, bounded subtasks.
-
-- Dispatch `scout` for read-only recon and checks, and `worker` for bounded edits. A mode marked
-  `subagent なし` stays with the orchestrator.
-- A subagent gets a self-contained brief: goal, scope, inputs, output format, verification
-  criteria, and stop condition. It returns distilled findings, not raw logs. It does not read the
-  caller's skill and does not spawn.
-- Parallelize independent reads and checks. Sequence dependent work. Do not delegate the whole
-  task.
-- Synthesize the results. Resolve conflicts, route cross-cutting findings, and verify on the real
-  surface. Do not trust self-reports.
-- A read-only check returns findings; the orchestrator decides and edits.
-- If a subagent fails twice, do the work yourself or report the block. No unbounded loops.
-- Start with the simplest pattern. One subagent is enough until the task proves otherwise.
-- The orchestrator is the information bottleneck. Keep its context on the goal, not on raw
-  subagent output.
+The main session does the work. Subagents are only for review. Use `comment-sicko` for comments
+and `reviewer` for the diff. No other subagent is used. The caller gives a scoped brief; the
+subagent does not read the caller's skill and does not spawn. The caller checks the findings and
+makes the fix.
 
 ## Gates
 
@@ -24,10 +11,10 @@ the verification. It does the main work itself and delegates only independent, b
   how you will verify it, and what you will not touch. Then proceed unless the user redirects.
 - Work that edits files starts in a linked worktree. Herdr is assumed; use `/skill:workspace` in
   create mode. Already in a worktree, work there; do not create another. Read-only stays put.
-- Before commit, run the comment guard in `/skill:ship`. List every added comment and why it cannot
-  be code. Delete the rest.
-- Before opening a PR, verify the full diff against explicit criteria. Use `/skill:ship` for the
-  commit and PR steps. Commit one intent. No merge, no watcher.
+- Before commit, run `comment-sicko` on the diff. Check the findings with
+  `skills/shared/references/comments.md`. Stop at findings; the caller fixes.
+- Before opening a PR, run `reviewer` and `comment-sicko` on the full PR diff. One reviewer per
+  lane. Check the findings; the caller fixes. Use `/skill:ship`. No merge, no watcher.
 - A PR-status question reads the forge once. Opening a PR ends the work.
 - A UI, IDE, or CLI change is verified on the real surface before the report.
 - To send a task to another workspace or close one branch, use `/skill:workspace`. Triggers are
@@ -39,7 +26,7 @@ the verification. It does the main work itself and delegates only independent, b
 The catalog is `explain`, `imozuru`, `ship`, `workspace`, `herdr`, `hunk-review`, and `yomiyasu`
 (hidden). Read the matching skill. `explain` is a single procedure. `imozuru` is a research
 procedure with a watch mode. `ship` and `workspace` have modes. The vendored skills keep their
-upstream shape. When no skill fits, do the work directly as the orchestrator.
+upstream shape. When no skill fits, do the work directly.
 
 ## Output
 
