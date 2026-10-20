@@ -13,7 +13,12 @@ metadata:
   note: locally modified
 ---
 
-Use this template for writing the PR body:
+First look for the repo's PR template in the standard GitHub locations:
+`.github/pull_request_template.md`, `.github/PULL_REQUEST_TEMPLATE.md`,
+`.github/pull_request_template/`, `.github/PULL_REQUEST_TEMPLATE/`,
+`docs/pull_request_template.md`, and the repo root. If one exists, follow its structure.
+
+If there is no repo template, use this template for the PR body:
 
 ```markdown
 ## Summary
@@ -36,7 +41,11 @@ Use this template for writing the PR body:
 <optional: potential ramifications of merge>
 ```
 
+In both cases, write the prose with `/skill:yomiyasu`.
+
 ## Sections
+
+The sections below describe this template. When a repo template exists, use its sections instead.
 
 Skip all preambles and keep prose brief. Use the user's domain language from the repo's `GLOSSARY.md` if it exists; otherwise use the codebase's own terms.
 

@@ -10,5 +10,7 @@
 
 - Frontmatter adds `license`, `metadata.upstream`, `metadata.version`, and `metadata.note` for pi.
 - The `GLOSSARY.md` reference is adapted to use the target repo's glossary when it exists.
+- The PR body structure uses the target repo's PR template when present; otherwise the upstream
+  template. The prose uses `/skill:yomiyasu`.
 - `CREDITS.md` is kept for the upstream attribution.
 - Omitted: `agents/openai.yaml` (plugin interface, not a pi-subagents agent).

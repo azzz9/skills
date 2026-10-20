@@ -12,7 +12,7 @@ description: "commit と PR。commit は自動でよい。PR は求められた�
 - **Prove It Works.** commit の前に、変更に対応する test か実 surface の証拠を確認する。
 - commit の前に `comment-sicko` に今回の diff を渡し、findings を検収する。基準は `../shared/references/comments.md`。残る findings は修正してから commit する。
 - PR の前に `reviewer` に base から head の full diff を渡し、`comment-sicko` にコメントを渡す。review lane ごとに `reviewer` を1人。findings を検収し、残るものは修正してから PR を開く。
-- PR title は Conventional Commits。body は what、why、verification、open risks。40行以内。日本語の body は `/skill:yomiyasu`。
+- PR title は Conventional Commits。body は `/skill:pr` の手順に従う。repo に PR template があればその構造を使い、無ければ `pr` の Summary、Evidence、Merge Danger を使う。どちらも `/skill:yomiyasu` で書く。
 - PR は ready で開く。draft にしない。
 - 開いたら終わり。merge しない。watcher を作らない。status は forge を1回読む。
 

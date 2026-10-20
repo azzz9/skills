@@ -21,8 +21,9 @@ scripts need Python 3.10+ and use only the standard library. Optional `pdftotext
 `tesseract`, and `ax` improve PDF, YouTube, OCR, and HTML handling.
 
 `skills/pr` and `skills/retro` are vendored from [`mattpocock/skills`](https://github.com/mattpocock/skills)
-(MIT). Each keeps the upstream `LICENSE`; `VENDOR.md` records the commit and local changes. `pr` is
-the PR body template; `ship` still owns the commit and PR gate. `retro` is hidden.
+(MIT). Each keeps the upstream `LICENSE`; `VENDOR.md` records the commit and local changes. `pr` uses
+the repo's PR template when one exists; otherwise its own. The body is written with `/skill:yomiyasu`.
+`ship` still owns the commit and PR gate. `retro` is hidden.
 
 ## Skills
 
