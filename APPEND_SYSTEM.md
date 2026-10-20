@@ -1,9 +1,8 @@
 ## Delegation
 
-The main session does the work. Subagents are only for review. Use `comment-sicko` for comments
-and `reviewer` for the diff. No other subagent is used. The caller gives a scoped brief; the
-subagent does not read the caller's skill and does not spawn. The caller checks the findings and
-makes the fix.
+The main session does the work. The only subagent is `reviewer`, for the diff. The no-comment
+rule is in `## Comments`. The caller gives a scoped brief; the subagent does not read the
+caller's skill and does not spawn. The caller checks the findings and makes the fix.
 
 ## Comments
 
@@ -16,10 +15,10 @@ that code cannot express. Never narrate code.
   how you will verify it, and what you will not touch. Then proceed unless the user redirects.
 - Work that edits files starts in a linked worktree. Herdr is assumed; use `/skill:workspace` in
   create mode. Already in a worktree, work there; do not create another. Read-only stays put.
-- Before commit, run `comment-sicko` on the diff. It enforces the no-comment rule. Stop at
-  findings; the caller fixes.
-- Before opening a PR, run `reviewer` and `comment-sicko` on the full PR diff. One reviewer per
-  lane. Check the findings; the caller fixes. Use `/skill:ship`. No merge, no watcher.
+- Before commit, check the diff against the no-comment rule. The caller fixes any comment that
+  fails.
+- Before opening a PR, run `reviewer` on the full PR diff. One reviewer per lane. Check the findings
+  and the no-comment rule; the caller fixes. Use `/skill:ship`. No merge, no watcher.
 - A PR-status question reads the forge once. Opening a PR ends the work.
 - A UI, IDE, or CLI change is verified on the real surface before the report.
 - To send a task to another workspace or close one branch, use `/skill:workspace`. Triggers are

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
@@ -8,23 +8,22 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SKILLS = join(ROOT, "skills");
 const AGENTS = join(ROOT, "agents");
 
-test("the always-on rules use review-only subagents", () => {
+test("the always-on rules use the reviewer", () => {
 	const append = readFileSync(join(ROOT, "APPEND_SYSTEM.md"), "utf8");
 	assert.ok(!/^## Orchestrator$/m.test(append), "APPEND still has the orchestrator section");
 	assert.match(append, /^## Delegation$/m);
-	assert.match(append, /comment-sicko/);
 	assert.match(append, /reviewer/);
+	assert.doesNotMatch(append, /comment-sicko/);
 });
 
-test("the only local subagent is comment-sicko", () => {
-	const names = readdirSync(AGENTS)
-		.filter((name) => name.endsWith(".md"))
-		.map((name) => name.slice(0, -3));
-	assert.deepEqual(names.sort(), ["comment-sicko"]);
-	const text = readFileSync(join(AGENTS, "comment-sicko.md"), "utf8");
-	assert.match(text, /^inheritSkills:\s*false$/m);
-	const tools = text.match(/^tools:\s*(.+)$/m)?.[1] ?? "";
-	assert.ok(!tools.includes("subagent"), "comment-sicko: exposes subagent");
+test("there is no local subagent; reviewer is builtin", () => {
+	const local = existsSync(AGENTS)
+		? readdirSync(AGENTS).filter((name) => name.endsWith(".md"))
+		: [];
+	assert.deepEqual(local, []);
+	const append = readFileSync(join(ROOT, "APPEND_SYSTEM.md"), "utf8");
+	assert.match(append, /reviewer/);
+	assert.doesNotMatch(append, /comment-sicko/);
 });
 
 test("the no-comment rule is in APPEND", () => {
@@ -33,16 +32,16 @@ test("the no-comment rule is in APPEND", () => {
 	assert.match(append, /Write no comments/);
 });
 
-test("ship uses reviewer and comment-sicko", () => {
+test("ship uses reviewer only", () => {
 	const ship = readFileSync(join(SKILLS, "ship", "SKILL.md"), "utf8");
 	assert.match(ship, /reviewer/);
-	assert.match(ship, /comment-sicko/);
+	assert.doesNotMatch(ship, /comment-sicko/);
 });
 
 test("imozuru does not delegate search to a subagent", () => {
 	const text = readFileSync(join(SKILLS, "imozuru", "SKILL.md"), "utf8");
 	assert.doesNotMatch(text, /検索役のサブエージェント/);
-	assert.match(text, /サブエージェントは使わない（reviewer と comment-sicko だけ）/);
+	assert.match(text, /サブエージェントは使わない（reviewer だけ）/);
 });
 
 test("every mode names an agent or subagent なし", () => {
@@ -50,7 +49,7 @@ test("every mode names an agent or subagent なし", () => {
 		const text = readFileSync(join(SKILLS, name, "SKILL.md"), "utf8");
 		const modes = text.split("## モード")[1]?.split("##")[0] ?? "";
 		for (const line of modes.split("\n").filter((line) => /^- \*\*/.test(line))) {
-			assert.match(line, /\((?:[^)]*)(?:subagent なし|reviewer|comment-sicko)[^)]*\)/, `${name}: ${line}`);
+			assert.match(line, /\((?:[^)]*)(?:subagent なし|reviewer)[^)]*\)/, `${name}: ${line}`);
 		}
 	}
 });
