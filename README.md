@@ -8,8 +8,9 @@ Parts of it come from [`cursor/plugins` pstack](https://github.com/cursor/plugin
 playbooks, the principles, and several workflow skills began as theirs, and plenty of the wording is still
 theirs. Thank you. `LICENSE` keeps their copyright notice beside the modification notice.
 
-`skills/herdr` and `skills/hunk-review` are vendored from their upstream projects. Each keeps
-the upstream `LICENSE` beside it and a `metadata.upstream` note in its frontmatter.
+`skills/herdr`, `skills/hunk-review`, and `skills/imozuru` are vendored from their upstream projects. Each
+keeps the upstream `LICENSE` beside it and a `metadata.upstream` note in its frontmatter. imozuru
+brings Python 3.10+ scripts; the optional extractors those scripts use are listed in its `SKILL.md`.
 
 ## Scope
 

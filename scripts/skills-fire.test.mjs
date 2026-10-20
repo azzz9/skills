@@ -28,6 +28,7 @@ const DISCOVERABLE = [
 	"hillclimb",
 	"how",
 	"hunk-review",
+	"imozuru",
 	"investigation",
 	"multi-phase-plan",
 	"opening-a-pr",
@@ -46,6 +47,26 @@ const DISCOVERABLE = [
 
 // Directories under skills/ that hold shared material rather than a skill of their own.
 const CONTAINERS = [];
+
+// A field is either a plain scalar on its own line or a block scalar (`|`, `>`) whose text sits
+// on the indented lines below. Both are valid YAML, and pi parses the frontmatter as YAML.
+function field(fm, key) {
+	const lines = fm.split("\n");
+	const start = lines.findIndex((line) => line.startsWith(`${key}:`));
+	if (start === -1) return undefined;
+	const value = lines[start].slice(key.length + 1).trim();
+	if (!/^[|>][+-]?$/.test(value)) return value || undefined;
+	const block = [];
+	for (const line of lines.slice(start + 1)) {
+		if (line.trim() === "") {
+			block.push("");
+			continue;
+		}
+		if (!/^\s/.test(line)) break;
+		block.push(line.trim());
+	}
+	return block.join(" ").trim() || undefined;
+}
 
 function frontmatter(dir) {
 	const text = readFileSync(join(SKILLS, dir, "SKILL.md"), "utf8");
@@ -66,8 +87,8 @@ test("every skill can fire, and exactly the listed skills are fireable", () => {
 	const fireable = [];
 	for (const name of skills()) {
 		const fm = frontmatter(name);
-		const declared = fm.match(/^name:\s*(.+)$/m)?.[1]?.trim();
-		const description = fm.match(/^description:\s*(.+)$/m)?.[1]?.trim();
+		const declared = field(fm, "name");
+		const description = field(fm, "description");
 		assert.ok(declared, `${name}: frontmatter has no name`);
 		assert.equal(declared, name, `${name}: name does not match its directory`);
 		assert.ok(description && description.length > 20, `${name}: frontmatter has no usable description`);
