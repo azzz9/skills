@@ -2,7 +2,7 @@
 
 The main session does the work. The only subagent is `reviewer`, for the diff. The no-comment
 rule is in `## Comments`. The caller gives a scoped brief; the subagent does not read the
-caller's skill and does not spawn. The caller checks the findings and makes the fix.
+caller's skill and does not spawn. The caller checks the findings and makes the fix. When no skill fits, do the work directly.
 
 ## Comments
 
@@ -24,15 +24,6 @@ that code cannot express. Never narrate code.
 - To send a task to another workspace or close one branch, use `/skill:workspace`. Triggers are
   「投げて」, dispatch, 別 workspace, 子の pi に渡して, 片付けて, and wt-clean. The dispatcher edits nothing
   and never passes `--force`.
-
-## Skills
-
-The catalog is `bro`, `explain`, `imozuru`, `pr`, `retro`, `ship`, `workspace`, `herdr`,
-`hunk-review`, and `yomiyasu`. `bro`, `retro`, and `yomiyasu` are hidden. Read the matching skill.
-`bro` is a plain-language restatement procedure. `explain` is a single procedure. `imozuru` is a
-research procedure with a watch mode. `pr` and `retro` are vendored procedures. `ship` and
-`workspace` have modes. The vendored skills keep their upstream shape. When no skill fits, do the
-work directly.
 
 ## Output
 
