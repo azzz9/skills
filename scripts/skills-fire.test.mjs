@@ -15,34 +15,22 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SKILLS = join(ROOT, "skills");
 
 const DISCOVERABLE = [
-	"authoring-a-skill",
-	"bug-fix",
-	"conventional-commit",
-	"conversation-to-memory",
-	"explain",
-	"feature",
+	"change",
+	"design",
+	"diagnose",
 	"herdr",
-	"hillclimb",
-	"how",
 	"hunk-review",
-	"investigation",
-	"multi-phase-plan",
-	"opening-a-pr",
-	"pause-safely",
-	"perf-issue",
-	"prototype",
-	"refactoring",
-	"runtime-forensics",
-	"session-pickup",
-	"trace-forensics",
-	"unslop",
-	"visual-parity",
-	"why",
-	"worktree-cleanup",
+	"performance",
+	"plan",
+	"review",
+	"ship",
+	"understand",
+	"workspace",
+	"writing",
 ];
 
 // Directories under skills/ that hold shared material rather than a skill of their own.
-const CONTAINERS = [];
+const CONTAINERS = ["shared"];
 
 function frontmatter(dir) {
 	const text = readFileSync(join(SKILLS, dir, "SKILL.md"), "utf8");

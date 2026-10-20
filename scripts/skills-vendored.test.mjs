@@ -23,3 +23,11 @@ test("a vendored skill keeps its upstream license beside it", () => {
 		);
 	}
 });
+
+test("the vendored yomiyasu keeps its license and vendor record", () => {
+	const dir = join(SKILLS, "yomiyasu");
+	for (const file of ["SKILL.md", "LICENSE", "UNICODE-LICENSE.txt", "VENDOR.md"]) {
+		assert.ok(existsSync(join(dir, file)), `yomiyasu: missing ${file}`);
+	}
+	assert.ok(!existsSync(join(dir, "GUIDE.md")), "yomiyasu: GUIDE.md is not a skill file");
+});

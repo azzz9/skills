@@ -1,23 +1,25 @@
 ## Gates that fire before the work
 
-- Before every commit, run the deslop skill over the diff. Commits belong to the task you were asked to do; do not commit outside it.
-- Before review, run the no-comments skill. Where the review is read-only, the skill returns findings instead of edits.
-- Before opening a PR, run the no-comments skill and spawn one `reviewer`, on a model from a different lineage than the parent's.
+- Before every commit, run `/skill:review` in slop mode over the diff. Commits belong to the task you were asked to do; do not commit outside it. Split commits by intent; do not bundle unrelated changes.
+- Before review, run `/skill:review` in comments mode. Where the review is read-only, stop after the findings and make no edits.
+- Before opening a PR, run `/skill:review` in comments mode and code mode, with one reviewer per review lane on a model from a different lineage than the caller's.
 - A PR-status question reads the forge once and reports. No watcher, no polling, no merge. Opening a
   PR ends the work.
 - A UI, IDE, or CLI change is verified on the real surface by the agent, before the report.
-- Work that edits files in a git repo starts in a linked worktree you create. Call `teleport create`
-  with `branch: "pi/<slug>"`, where `<slug>` is two to four lowercase words taken from the task, then
-  `jump` to the path it prints, before the first edit. Never ask the human for a name. Outside Herdr,
-  pass an absolute `path` under `~/worktrees/<repo>/pi/<slug>` so the checkout stays out of `~/src`. A
-  checkout whose `.git` is a file is already a worktree, so work there and do not nest. Read-only
-  work stays put.
-- To send a task to a separate workspace, or to close one branch, read the `dispatch` skill and run
-  its steps. Triggers are 「投げて」, dispatch, 別 workspace, 子の pi に渡して, 片付けて, and wt-clean.
-  The dispatching session edits nothing itself and never passes `--force`.
+- Work that edits files in a git repo starts in a linked worktree you create. Herdr is assumed.
+  Check `HERDR_ENV=1`, then use `herdr worktree create` with branch `pi/<slug>`. If you are not
+  inside Herdr, stop and say so. Never ask the human for a name. If you are already in a worktree,
+  work there and do not create another. Check `git worktree list`; the first checkout is the main
+  repo, so a different path means you are in a worktree. Read-only work stays put.
+- To send a task to a separate workspace, or to close one branch, read the `workspace` skill and use
+  its create or clean mode. Triggers are 「投げて」, dispatch, 別 workspace, 子の pi に渡して, 片付けて, and wt-clean.
+  The dispatching session edits nothing itself and never passes `--force` in create mode.
 - Design, diagnosis, and verdicts with an explicit goal go to `deep`, which is read-only. Work that edits
   code or prose goes to `standard` or `intent`. Ambiguous work takes `intent`, routine delegation
   `standard`, and recon `fast`. The model behind a tier is the host's setting.
+- The pi session that reads a skill calls `subagent({ agent, task })` with a scoped brief. The
+  subagent does not read the caller's skill and does not spawn subagents. The caller reviews the diff
+  and verifies the result.
 
 ## Principles
 
@@ -36,11 +38,12 @@ Apply these as written. Name the one that changed a decision.
 - Sequence Verifiable Units. For multi-step work, sweeps, or stacked delivery.
 - Never Block on the Human. When tempted to ask what a run or the code could answer.
 
-## Playbooks
+## Skills
 
-Nontrivial work follows one playbook. The catalog lists them, one skill per playbook, and each
-description says when it fires. Pick the one that matches the task, read it, and run its steps in
-order. The file is the plan.
+Nontrivial work follows one skill from the catalog. Each skill has a mode table and a line that says
+whether modes are exclusive, sequential, or combined. Pick the mode or modes that match the task.
+Read the skill, then run the mode. The skill is the plan. When no skill fits, use `/skill:plan` in
+novel mode.
 
 ## Output
 
@@ -72,7 +75,7 @@ read over adding length.
 ### Content
 
 - Terse is not an excuse to drop content. Keep the facts the reply needs: details, tradeoffs,
-  choices, open decisions. A playbook's section list is a checklist of what must not be
+  choices, open decisions. A skill's contract is a checklist of what must not be
   forgotten, not an outline to fill.
 - Cut a fact only when the reader does not need it to act or to decide.
 - Name the consumer and the maintainer, and what changes for each, before the implementation
