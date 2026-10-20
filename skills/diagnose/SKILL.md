@@ -13,7 +13,7 @@ description: "不具合や性能異常の診断。failing repro、live profile�
 - fix は repro が before で失敗し after で通ることを示す。unit test は bug absence の証明ではない。
 - 反証された仮説が動機づけた変更は revert する。
 - 関数境界を越える fix は `design` の sketch を先に。
-- commit 順は failing repro、fix。高価、統合寄り、不明なら skip。commit はユーザーが求めたときだけ。
+- commit 順は failing repro、fix。高価、統合寄り、不明なら skip。
 
 ## モード
 

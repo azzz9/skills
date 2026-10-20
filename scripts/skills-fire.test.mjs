@@ -29,6 +29,8 @@ const DISCOVERABLE = [
 	"writing",
 ];
 
+const HIDDEN = ["skill-dev", "yomiyasu"];
+
 // Directories under skills/ that hold shared material rather than a skill of their own.
 const CONTAINERS = ["shared"];
 
@@ -59,6 +61,16 @@ test("every skill can fire, and exactly the listed skills are fireable", () => {
 		if (!/^disable-model-invocation:\s*true\s*$/m.test(fm)) fireable.push(name);
 	}
 	assert.deepEqual(fireable.sort(), DISCOVERABLE);
+});
+
+test("the catalog is exactly the visible and hidden skills", () => {
+	assert.deepEqual(skills().sort(), [...DISCOVERABLE, ...HIDDEN].sort());
+});
+
+test("hidden skills are marked hidden", () => {
+	for (const name of HIDDEN) {
+		assert.match(frontmatter(name), /^disable-model-invocation:\s*true\s*$/m);
+	}
 });
 
 test("no directory under skills/ is a half-made skill", () => {

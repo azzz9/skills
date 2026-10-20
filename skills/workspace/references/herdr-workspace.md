@@ -23,4 +23,4 @@ layout plugin が tabs を非同期に作る。`agent_pane_busy` が出たら少
 
 checkout、workspace、branch を閉じる。merge されていなければ exit 1。`--force` を渡さない。
 
-複数の worktree は `scripts/worktree-audit.sh` で監査し、未コミットと使用中を確認してから消す。
+複数の worktree は `../scripts/worktree-audit.sh` で監査し、未コミットと使用中を確認してから消す。
