@@ -15,10 +15,13 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SKILLS = join(ROOT, "skills");
 
 const DISCOVERABLE = [
+	"architect",
+	"arena",
 	"authoring-a-skill",
 	"bug-fix",
 	"conventional-commit",
 	"conversation-to-memory",
+	"dispatch",
 	"explain",
 	"feature",
 	"herdr",

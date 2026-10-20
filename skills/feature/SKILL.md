@@ -1,6 +1,6 @@
 ---
 name: feature
-description: "Feature. New or changed behavior, built from a named data shape."
+description: "Feature. New or changed behavior, built from a named data shape. Use when asked to add or change behavior, a command, a flag, or a shape."
 ---
 
 ### Feature
@@ -14,7 +14,7 @@ description: "Feature. New or changed behavior, built from a named data shape."
    - **Independent workstreams.** Disjoint files, services, or layers parallelize. Shared writes serialize.
    - **Shared mutable state.** Default to splitting the target. Serialize only for real invariants.
    - **Smallest safe decomposition.** If one worker is best, name why.
-4. Delegate code-writing to a subagent using your configured feature model (default inherit-parent) with a specific scope (file paths, named data shape and its organizing structure per the Model the Domain principle, a state machine over scattered booleans, a table/registry over branching, a typed model over repeated shape assumptions, chosen before the delegate writes logic, and success criteria). Review its diff yourself. When the implementation admits multiple valid shapes (error handling, abstraction layer, test structure), delegate via the **arena** skill instead so the runners surface the alternatives and the cross-judge guards the pick. Mandatory: no skip-with-reason escape, and Laziness Protocol does not override it (the gain is review separation, not lines saved). You can spawn a subagent even though you are one. "The app is small" and "a subagent cannot spawn one" are both wrong. A subagent forbidden to spawn satisfies this by owning the diff directly with the same review separation. No "standing by" reply that waits on a nested agent. Comments per the no-comments skill. Surgical edits, re-ground against the source for upstream-derived files. Port shared-primitive improvements to all consumers and verify each. Commit liberally.
+4. Delegate code-writing to `standard` with a specific scope (file paths, named data shape and its organizing structure per the Model the Domain principle, a state machine over scattered booleans, a table/registry over branching, a typed model over repeated shape assumptions, chosen before the delegate writes logic, and success criteria). Review its diff yourself. When the implementation admits multiple valid shapes (error handling, abstraction layer, test structure), delegate via the **arena** skill instead so the runners surface the alternatives and the cross-judge guards the pick. Mandatory: no skip-with-reason escape, and Laziness Protocol does not override it (the gain is review separation, not lines saved). You can spawn a subagent even though you are one. "The app is small" and "a subagent cannot spawn one" are both wrong. A subagent forbidden to spawn satisfies this by owning the diff directly with the same review separation. No "standing by" reply that waits on a nested agent. Comments per the no-comments skill. Surgical edits, re-ground against the source for upstream-derived files. Port shared-primitive improvements to all consumers and verify each. Commit liberally.
 5. Verify on the matching surface. "Inconclusive" or wrong-surface is not a pass. Flag it.
 6. Rebase into small, ordered commits. Stack follow-ups.
    Build, verify, and commit each small unit before the next.

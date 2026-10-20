@@ -78,8 +78,8 @@ Launch all matching investigators in a single message so they run concurrently. 
 
 Subagent config (each):
 - agent: "standard"
-- `model`: your configured why-investigators model (default inherit-parent)
-- `readonly`: `false` (agent mode). **Do not use readonly/Ask mode.** It strips MCP access, which disables MCP-backed investigators entirely. Investigators still shouldn't write anything.
+
+Each investigator reads and queries only. It never edits or writes.
 
 Each investigator gets:
 1. The base prompt from `references/investigator-prompt.md`
@@ -121,8 +121,8 @@ If your scope assessment suggests a single-commit trivial target where the PR de
 Spawn one synthesizer subagent:
 
 - agent: "standard"
-- `model`: your configured why-synthesizer model (default inherit-parent)
-- `readonly`: `false` (agent mode). The synthesizer's quality check spot-verifies citations, which can require MCP access. Readonly/Ask mode strips MCPs and defeats that.
+
+The synthesizer reads and queries only. It never edits or writes.
 
 The synthesizer gets:
 1. The investigator findings, including any null results and any categories skipped with justification

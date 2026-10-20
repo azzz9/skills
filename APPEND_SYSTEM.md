@@ -15,9 +15,11 @@
 - To send a task to a separate workspace, or to close one branch, read the `dispatch` skill and run
   its steps. Triggers are 「投げて」, dispatch, 別 workspace, 子の pi に渡して, 片付けて, and wt-clean.
   The dispatching session edits nothing itself and never passes `--force`.
-- Design, diagnosis, and verdicts with an explicit goal go to `deep`, which is read-only. Work that edits
-  code or prose goes to `standard` or `intent`. Ambiguous work takes `intent`, routine delegation
-  `standard`, and recon `fast`. The model behind a tier is the host's setting.
+- Reading a playbook authorizes the subagents that playbook names. That line is the delegation
+  authority, so do not ask again and do not quietly do the work yourself. A child that may not spawn
+  subagents does its own scope directly. Pass the agent name: design, diagnosis, and verdicts with an
+  explicit goal go to `deep`, which is read-only; work that edits code or prose goes to `standard`;
+  ambiguous work takes `intent`; recon takes `fast`. The model behind a tier is the host's setting.
 
 ## Principles
 
@@ -40,7 +42,8 @@ Apply these as written. Name the one that changed a decision.
 
 Nontrivial work follows one playbook. The catalog lists them, one skill per playbook, and each
 description says when it fires. Pick the one that matches the task, read it, and run its steps in
-order. The file is the plan.
+order. The file is the plan. A step that says to delegate is already authorized: call `subagent`
+with the agent this file names instead of doing that work in the parent.
 
 ## Output
 

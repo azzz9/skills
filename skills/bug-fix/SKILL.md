@@ -1,6 +1,6 @@
 ---
 name: bug-fix
-description: "Bug fix. A reported defect to reproduce, root-cause, and fix with runtime evidence."
+description: "Bug fix. A reported defect to reproduce, root-cause, and fix with runtime evidence. Use when something throws, hangs, leaks, returns the wrong result, or a report says it is broken."
 ---
 
 ### Bug fix
@@ -11,7 +11,7 @@ Be scientific. Every shipped line traces to runtime evidence. Belt-and-suspender
 
 1. Reproduce it yourself on the matching surface via the control skill (the gates in the ruleset). Don't hand the repro to the user. A debug or instrumentation protocol that says to ask the user does not override this. You drive the instrumented runtime. Ask the user only with a stated, specific reason the control surface cannot reach the target, and only after driving it as far as it goes. Won't reproduce directly, force it: synthesize the trigger, tighten conditions, or instrument until it fires.
 2. Binary-search the cause. Form the candidate hypotheses, then rule them out until one survives. Seed them with `how` over the affected subsystem and the **why** skill for regression history. Each pass, take the split that cuts the most remaining problem space, get runtime evidence, eliminate. When program state is unclear, add instrumentation or logging and read it as the code runs. Don't guess. Drive a long or stubborn hunt with a recurring wake. Confirm the surviving *mechanism* with runtime evidence before the step-3 architect fan-out.
-3. Plan the fix. If it crosses a function boundary, `architect` first. Delegate implementation to a subagent using your configured bug-fix model (default inherit-parent) with a specific scope. Review the diff.
+3. Plan the fix. If it crosses a function boundary, `architect` first. Delegate implementation to `standard` with a specific scope. Review the diff.
 4. Verify on the same surface. The original repro now passes. "Inconclusive" or wrong-surface is not a pass. Flag it. Unit tests show branch behavior, not bug absence.
 5. Stage the commits so the failing repro lands before the fix in git history when the bug has a cheap local test path. Skip it when the test would be expensive, integration-heavy, or unclear.
    This is the canonical order, the failing test first and the fix on top.
