@@ -48,11 +48,14 @@ test("imozuru does not delegate search to a subagent", () => {
 	assert.match(text, /サブエージェントは使わない（reviewer だけ）/);
 });
 
-test("every mode names an agent or subagent なし", () => {
+test("every mode names an agent or no subagent", () => {
 	for (const name of ["ship", "workspace"]) {
 		const text = readFileSync(join(SKILLS, name, "SKILL.md"), "utf8");
-		const modes = text.split("## モード")[1]?.split("##")[0] ?? "";
-		for (const line of modes.split("\n").filter((line) => /^- \*\*/.test(line))) {
+		const modes = text.split("## Modes")[1]?.split("##")[0] ?? "";
+		assert.ok(modes.trim(), `${name}: missing ## Modes`);
+		const lines = modes.split("\n").filter((line) => /^- \*\*/.test(line));
+		assert.ok(lines.length > 0, `${name}: no mode lines`);
+		for (const line of lines) {
 			assert.match(line, /\((?:[^)]*)(?:no subagent|reviewer)[^)]*\)/, `${name}: ${line}`);
 		}
 	}
