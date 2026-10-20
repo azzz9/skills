@@ -12,7 +12,8 @@ disable-model-invocation: true
 - frontmatter は name と description。name は directory と一致。参照ファイルは実在する。
 - 変更が behavior に効くなら eval する。blind を守る。
 - 1変更1仮説。結果が悪ければ revert。
-- 本文は契約とモード表。手順は references に置く。本文が長くなったら統合を疑う。
+- **Encode Lessons in Structure.** 本文は契約とモード表。手順は references に置く。本文が長くなったら統合を疑う。
+- **Build the Lever.** 1回の修正で済むなら skill を増やさない。
 
 ## モード
 

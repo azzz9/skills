@@ -10,7 +10,8 @@ description: "作業用 worktree と Herdr workspace の作成、終了。編集
 - 編集を伴う作業は linked worktree で始める。大本の repo では編集しない。Herdr が前提。`HERDR_ENV=1` を確認し、`herdr worktree create --cwd <repo root> --branch pi/<slug>` を使う。外なら止まる。read-only はそのまま。
 - worktree は大きいタスク専用ではない。編集を伴う作業を大本の repo から隔離するためのもの。
 - すでに worktree の中にいるなら、そこで作業する。新しい worktree を作らない。`create` は大本の repo からだけ行う。`git worktree list` の最初の checkout が大本で、自分のパスが違えば worktree の中。
-- 1タスク1 worktree。同時 writer を同じ cwd に置かない。
+- **Separate Before Serializing Shared State.** 1タスク1 worktree。同時 writer を同じ cwd に置かない。
+- **Make Operations Idempotent.** create と clean は再実行しても壊れない。
 - dispatch は `subagent()` ではない。別の pi セッションで、child が checkout を持つ。dispatch する側は編集しない。独立したタスクだけを dispatch し、現在の worktree の子 worktree を作らない。
 - 掃除は irreversible。`git worktree list` のパスだけを使う。`wip:N` と使用中は pause。clean、merged、not-in-use は進む。
 - branch ref は残す。`wt-clean` で1ブランチを完全に閉じるときだけ、merge の証明があるときに branch も消す。

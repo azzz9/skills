@@ -8,10 +8,11 @@ description: "複数 phase または複数 PR の plan。1つの変更が大き�
 ## 契約
 
 - plan が成果物。実装しない。
-- 1 PR は1変更。各 PR に unit、live、perf の証拠を付ける。3つが揃うまで verified と言わない。live は必須。
+- **Sequence Verifiable Units.** 1 PR は1変更。各 PR に unit、live、perf の証拠を付ける。3つが揃うまで verified と言わない。live は必須。
 - perf は trunk と head の両方で測る。異なる scenario の比を主張しない。
 - interaction を変える PR は、screenshot と video で operator のレビューを受ける。
-- 実行は operator の明示的な go から。go の前に owner を spawn しない。go の後、owner は `subagent` で `standard` か `intent` を呼ぶ。
+- **Never Block on the Human.** 実行は operator の明示的な go から。go の前に owner を spawn しない。go の後、owner は `subagent` で `standard` か `intent` を呼ぶ。
+- **Build the Lever.** 繰り返す作業は script か check にする。
 - 委譲の形と agent の一覧は `../shared/references/delegation.md`。
 - 1から2ファイルで明白なら plan を書かない。そう言って止める。
 - 検証は実 surface で。unit test だけでは足りない。

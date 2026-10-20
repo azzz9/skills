@@ -9,9 +9,9 @@ description: "diff のレビュー。コメントの削除、AI slop の除去�
 
 - findings only。依頼なしに application code を編集しない。
 - スコープは呼び出し元が渡した diff。`change` からは今回の変更、`ship` からは PR の差分全体（base から head）。
-- 各 finding に file:line、severity、evidence を付ける。事実と推測を分ける。
+- **Prove It Works.** 各 finding に file:line、severity、evidence を付ける。事実と推測を分ける。
 - read-only のレビューなら findings で止まる。
-- accepted finding の fix は範囲内。shape が要るなら `design` の sketch を1回。
+- **Fix Root Causes.** accepted finding の fix は範囲内。shape が要るなら `design` の sketch を1回。
 - コメントの基準は `../shared/references/comments.md`。keep はその基準に合うときだけ。
 - 委譲の形と agent の一覧は `../shared/references/delegation.md`。
 

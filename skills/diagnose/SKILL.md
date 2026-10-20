@@ -10,8 +10,8 @@ description: "不具合や性能異常の診断。failing repro、live profile�
 - artifact first。failing repro、CPU profile、heap snapshot、trace のいずれか。推測で始めない。
 - source mapping のない frame は診断ではない。file、symbol、line を引用する。
 - 原因が分かるまで read-only。fix は `change` が持つ。
-- fix は repro が before で失敗し after で通ることを示す。unit test は bug absence の証明ではない。
-- 反証された仮説が動機づけた変更は revert する。
+- **Prove It Works.** fix は repro が before で失敗し after で通ることを示す。unit test は bug absence の証明ではない。
+- **Fix Root Causes.** 反証された仮説が動機づけた変更は revert する。
 - fix は `design` の後に `change` に渡す。関数境界を越えるなら sketch も先に。
 - `change` に渡すとき、commit 順は failing repro、fix。高価、統合寄り、不明なら skip。
 

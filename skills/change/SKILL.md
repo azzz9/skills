@@ -16,15 +16,16 @@ description: "コードを変える、または新規に作る。機能追加、
 
 選び方: 必ず1つ。`add` と `reshape` は排他。
 
-- **add** (standard; mechanical は fast; 文脈が重いなら inherit): 新しい動きを足す、または新規に作る（例: 機能追加、新規ファイル）。データの形を先に決める。既存の repo ならテストを先に書く。新規なら最小の scaffold を作り、動く証拠を先に決める。分岐が増えるなら、状態機械か表にする。成功の証拠は、既存なら failing test → passing、新規なら scaffold 上の test か run。
+- **add** (standard; mechanical は fast; 文脈が重いなら inherit): **Model the Domain.** 新しい動きを足す、または新規に作る（例: 機能追加、新規ファイル）。データの形を先に決める。既存の repo ならテストを先に書く。新規なら最小の scaffold を作り、動く証拠を先に決める。分岐が増えるなら、状態機械か表にする。成功の証拠は、既存なら failing test → passing、新規なら scaffold 上の test か run。
 - **reshape** (standard; mechanical は fast; 文脈が重いなら inherit): 動きを変えずに構造を変える（例: リファクタ、名前変更、分割）。呼び出し元をすべて同じ wave で移し、古い API を消す。互換用の残しを置かない。成功の証拠は、今の動きを記録したテストが変更前も変更後も通ること。
 
 ## 共通ルール
 
-- 作る前、変える前に、どうなったら成功かを決める。決めずに書き始めない。
+- **Prove It Works.** 作る前、変える前に、どうなったら成功かを決める。決めずに書き始めない。
 - 編集の前に `design` を通し、`## 方針` を出す。小さい修正は2から3行でよい。
-- `diagnose` から来た fix は、failing repro と same surface の passing run を引き継ぐ。unit test は bug absence の証明ではない。
-- 実際の画面、実行結果、artifact で確かめる。テストだけ、目視だけでは足りない。判定できない、または違う画面で試したなら合格にしない。
+- **Fix Root Causes.** `diagnose` から来た fix は、failing repro と same surface の passing run を引き継ぐ。unit test は bug absence の証明ではない。
+- **Prove It Works.** 実際の画面、実行結果、artifact で確かめる。テストだけ、目視だけでは足りない。判定できない、または違う画面で試したなら合格にしない。
+- **Laziness Protocol.** 変更は最小にする。読者負荷が下がらないなら revert する。
 - コメントの基準は `../shared/references/comments.md`。
 
 ## 委譲

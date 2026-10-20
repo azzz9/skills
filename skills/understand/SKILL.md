@@ -9,7 +9,7 @@ description: "コードや設計を理解する。仕組み、設計理由、初
 
 - 読み取り専用。コードを変更しない。
 - 主張には file:line、commit、issue、または実行結果を付ける。観測と推論を分ける。
-- 問いに答える。対象が曖昧なら解釈を1行で述べて進む。
+- **Never Block on the Human.** 問いに答える。対象が曖昧なら解釈を1行で述べて進む。
 - 決定を求められたら、選択肢、tradeoff、推奨を出す。前提が違えば指摘する。
 - evidence source が複数あるなら並列に問い合わせる。source control、issue tracker、docs、chat、observability、error tracking、analytics。
 

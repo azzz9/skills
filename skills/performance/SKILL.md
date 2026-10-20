@@ -7,12 +7,12 @@ description: "性能の改善。一度きりの遅さの修正と、指標を継
 
 ## 契約
 
-- baseline を先に測る。harness の感度を確認し、freeze する。
+- **Prove It Works.** baseline を先に測る。harness の感度を確認し、freeze する。
 - 1変更、1測定。keep or revert。未測定の変更を積まない。
 - code inspection で win を主張しない。
 - 反証されたら revert。simplification が数値を保つなら keep。
 - regression gate を green に保つ。
-- 数値には unit と workload を付ける。異なる workload の比を主張しない。
+- **Explain the Number.** 数値には unit と workload を付ける。異なる workload の比を主張しない。
 
 ## モード
 

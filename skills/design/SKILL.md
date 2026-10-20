@@ -8,8 +8,8 @@ description: "コードを書く前の設計。型、signature、module 境界�
 ## 契約
 
 - 成果物は決定と sketch。production code は書かない。
-- 複数の shape が妥当なら、同じ基準で比べる。
-- prototype は捨てる。production framework、tests、abstractions を持ち込まない。
+- **Model the Domain.** 複数の shape が妥当なら、データの形を基準に比べる。
+- **Laziness Protocol.** prototype は捨てる。production framework、tests、abstractions を持ち込まない。
 - 実装で sketch が否定されたら、sketch を捨てて redesign する。修正を積まない。
 - 決定は実 surface で確かめる。visual なら screenshot、timing なら出力、API なら呼び出し。
 - 委譲の形と agent の一覧は `../shared/references/delegation.md`。
@@ -24,7 +24,7 @@ description: "コードを書く前の設計。型、signature、module 境界�
 - どう検証するか
 - 触らないもの
 
-小さい修正は2から3行でよい。複数手順ならステップを並べる。方針が変わったら、続ける前に何が変わったかを言う。
+小さい修正は2から3行でよい。複数手順ならステップを並べる。方針が変わったら、続ける前に何が変わったかを言う。決定を変えた principle を1つ名指しする。
 
 design 自身の sketch と prototype は、この skill の成果物として書く。production の変更ではないので、plan gate を再度開かない。
 
@@ -46,4 +46,5 @@ design 自身の sketch と prototype は、この skill の成果物として�
 ## 停止
 
 - 決定が出たら `change` に渡す。実装はしない。
-- 決定に product の好みが要るなら、選択肢を出して operator に聞く。
+- **Experience First.** 決定に product の好みが要るなら、選択肢を出して operator に聞く。
+- **Never Block on the Human.** 走らせれば分かることは聞かず、好みだけ聞く。
