@@ -7,8 +7,9 @@ not ask the human to confirm them. When no skill fits, do the work directly.
 
 ## Comments
 
-Write no comments. Keep a comment only for a legal header or a non-obvious external constraint
-that code cannot express. Never narrate code.
+Write no comments in code we write. Keep a comment only for a legal header or a non-obvious
+external constraint that code cannot express. Never narrate code. Vendored code keeps its upstream
+comments.
 
 ## Gates
 

@@ -177,7 +177,7 @@ BROWSER_UA = "Mozilla/5.0 imozuru"
 PLAIN_UA = "imozuru"
 
 
-def download(url: str, user_agent: str = BROWSER_UA) -> tuple[bytes, str]:
+def download(url: str, user_agent: str = BROWSER_UA) -> tuple[bytes, str, str]:
     """URL を取りに行き、本体と Content-Type を返す。
 
     MAX_BYTES を超える本体や、Content-Length に届かずに切れた本体は、取得ごと失敗にする。
@@ -194,7 +194,7 @@ def download(url: str, user_agent: str = BROWSER_UA) -> tuple[bytes, str]:
             raise ValueError(f"本体が {MAX_BYTES:,} バイトを超える")
         if isinstance(res.length, int) and res.length > 0:
             raise ValueError("本体が途中で切れた")
-        return body, res.headers.get("Content-Type", "")
+        return body, res.headers.get("Content-Type", ""), res.geturl()
 
 
 def pdf_save(url: str, out: Path) -> bool:
@@ -204,9 +204,10 @@ def pdf_save(url: str, out: Path) -> bool:
     こちらで確かめられないので、検査つきの download で頼み直す。
     """
     try:
-        body, _ = download(url, user_agent=PLAIN_UA)
+        downloaded = download(url, user_agent=PLAIN_UA)
     except Exception:  # 取れなければ HTML のまま進める
         return False
+    body = downloaded[0]
     if body[:5] != b"%PDF-":
         return False
     out.write_bytes(body)
@@ -479,6 +480,19 @@ class _TextExtractor(HTMLParser):
         return re.sub(r"\n{3,}", "\n\n", "\n".join(lines)).strip() + "\n"
 
 
+_MARKDOWN_LINK = re.compile(r"\]\(([^)\s]+)\)")
+
+
+def resolve_markdown_links(text: str, base: str) -> str:
+    """Resolve relative markdown links against the URL that served the page."""
+    def replace(match: re.Match[str]) -> str:
+        target = match.group(1)
+        if target.startswith(("#", "mailto:", "data:")) or "://" in target:
+            return match.group(0)
+        return f"]({urllib.parse.urljoin(base, target)})"
+    return _MARKDOWN_LINK.sub(replace, text)
+
+
 def html_to_md(url: str, out: Path, body: bytes | None = None, ctype: str = "") -> str:
     """本文を markdown にする。要約はしない。
 
@@ -490,7 +504,11 @@ def html_to_md(url: str, out: Path, body: bytes | None = None, ctype: str = "") 
     body を渡されたら取り直さずにそれを使う。ctype は body の Content-Type（文字コードの名乗りを読む）。
     """
     if body is None:
-        body, ctype = download(url)
+        downloaded = download(url)
+        body, ctype = downloaded[0], downloaded[1]
+        final_url = downloaded[2] if len(downloaded) > 2 else url
+    else:
+        final_url = url
     if body[:5] == b"%PDF-":
         # 転送先が PDF だった。呼び手が「%PDF」で気づいて PDF として取り直す
         text = "%PDF"
@@ -502,8 +520,9 @@ def html_to_md(url: str, out: Path, body: bytes | None = None, ctype: str = "") 
                        encoding="utf-8", errors="replace")
         page.unlink(missing_ok=True)
         text = res.stdout if res else ""
+        text = resolve_markdown_links(text, final_url)
     else:
-        parser = _TextExtractor(url)
+        parser = _TextExtractor(final_url)
         parser.feed(decode_text(body, ctype))
         text = parser.text()
     out.write_text(text, encoding="utf-8")
@@ -688,10 +707,12 @@ def fetch_source(sources: Path, name: str, url: str, destination: Path) -> int:
         return 0
 
     try:
-        body, ctype = download(url)
+        downloaded = download(url)
     except Exception as e:  # HTTP エラーも接続失敗も、呼び手にとっては同じ「取れない」
         print(f"FAIL\t{name}\t{type(e).__name__}: {clean(str(e))}")
         return 1
+    body, ctype = downloaded[0], downloaded[1]
+    final_url = downloaded[2] if len(downloaded) > 2 else url
     # メディアタイプは大文字と小文字を区別しない。「Text/Plain」で返すサーバーもある
     ctype = ctype.lower()
 
@@ -718,7 +739,7 @@ def fetch_source(sources: Path, name: str, url: str, destination: Path) -> int:
         kept.write_text(text, encoding="utf-8")
     elif "html" in ctype or body.lstrip()[:1] == b"<":
         kept = sources / f"{name}.md"
-        text = html_to_md(url, kept, body, ctype)
+        text = html_to_md(final_url, kept, body, ctype)
         saved = kept
         # HAL は、ブラウザの名乗りには閲覧用の HTML を、それ以外の名乗りには PDF 本体を返す。
         # 前は ax の取り直しで PDF を受け取っていた。いまは名乗りを変えて自分で頼み直す。

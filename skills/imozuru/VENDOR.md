@@ -13,5 +13,6 @@
 - The `examples/demo/` directory is kept inside the skill, so the `SKILL.md` reference drops the
   upstream repository prefix.
 - `scripts/report.py` and `scripts/watch.py` are executable so the documented direct invocation works.
+- The redirect-relative link fix and its regression test are local changes to `scripts/fetch.py`.
 - The upstream search-subagent paragraph and its search-report assumptions are adapted to the review-only subagent policy: the caller performs the search role itself; only `reviewer` is used as a subagent.
 - Omitted: `.claude-plugin/`, `assets/`, upstream tests, and the repository READMEs.

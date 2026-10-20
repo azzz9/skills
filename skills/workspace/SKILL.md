@@ -15,7 +15,7 @@ description: "Create and close worktrees and Herdr workspaces. Isolate editing w
 - Dispatch is not `subagent()`. It is a separate pi session, and the child owns its checkout. The dispatcher does not edit. Dispatch only independent tasks; do not create a child worktree of the current worktree.
 - Cleaning is irreversible. Use only paths from `git worktree list`. Pause on `wip:N` and in-use worktrees. Proceed on clean, merged, and not-in-use.
 - Keep branch refs. Delete a branch only when `wt-clean` closes one branch completely and merge proof exists.
-- Do not pass `--force` to `create`. Use `--force` on `clean` only after checking for uncommitted changes.
+- Do not pass `--force` to `create` or `clean`. Stop on uncommitted changes or in-use worktrees.
 - Close the Herdr workspace and panes.
 
 ## Modes
