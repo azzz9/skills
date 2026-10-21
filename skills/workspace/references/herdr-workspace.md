@@ -11,8 +11,8 @@ Herdr is required. Check `HERDR_ENV=1` and use `herdr worktree create`. If you a
    - `.result.workspace.workspace_id` identifies the workspace to close later.
    - `.result.worktree.path` is the checkout the child works in.
 4. `herdr agent start <slug> --kind pi --pane <pane>`
-5. `herdr agent prompt <slug> "<brief>" --wait --timeout 120000`
-   `--wait` returns at the first settled state, which confirms the brief landed. It is not the end of the turn.
+5. `herdr agent prompt <slug> "<brief>"`
+   The prompt returns once the text and Enter are written. Do not wait for the child's turn.
 6. Stop here. The child owns the work from this point.
 
 The layout plugin creates tabs asynchronously. If `agent_pane_busy` appears, wait briefly and retry once.
