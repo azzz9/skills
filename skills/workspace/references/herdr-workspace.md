@@ -25,6 +25,8 @@ The child starts with zero context. The brief is everything it knows, so name th
 
 The dispatcher hands the task over and stops. Do not read the child's result, wait for its turn to finish, or copy it back into this session. The child works in its own checkout, commits there, and answers the user directly. It does not close its own workspace.
 
+Closing the child ends its pi process, and the session does not move into the parent pane. Reopen it later with `pi --continue`.
+
 If the child blocks, the user answers it in the child pane. The dispatcher does not relay the question.
 
 ## clean
