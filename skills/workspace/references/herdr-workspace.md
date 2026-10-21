@@ -23,13 +23,13 @@ The child starts with zero context. The brief is everything it knows, so name th
 
 ## Handoff
 
-The dispatcher hands the task over and stops. Do not read the child's result, wait for its turn to finish, or copy it back into this session. The child works in its own checkout, commits there, and answers the user directly.
+The dispatcher hands the task over and stops. Do not read the child's result, wait for its turn to finish, or copy it back into this session. The child works in its own checkout, commits there, and answers the user directly. It does not close its own workspace.
 
 If the child blocks, the user answers it in the child pane. The dispatcher does not relay the question.
 
 ## clean
 
-Close the child before the workspace. `wt-clean` removes the worktree through Herdr, and Herdr refuses while a pi still occupies the workspace.
+`wt-clean` refuses while the child is working, and a child pi running the command is always working. Run it from another pane, never from the child.
 
 1. `herdr workspace close <workspace_id>`
 2. `wt-clean pi/<slug> --repo <repo root>`
