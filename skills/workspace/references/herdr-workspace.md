@@ -12,8 +12,8 @@ Herdr is required. Check `HERDR_ENV=1` and use `herdr worktree create`. If you a
    - `.result.worktree.path` is the checkout the child works in.
 4. `herdr agent start <slug> --kind pi --pane <pane>`
 5. `herdr agent prompt <slug> "<brief>" --wait --timeout 120000`
-6. For long work, use `herdr agent wait <slug> --timeout <ms>`.
-7. Read the result with `herdr agent read <slug> --source recent-unwrapped --lines 120`.
+   `--wait` returns at the first settled state, which confirms the brief landed. It is not the end of the turn.
+6. Stop here. The child owns the work from this point.
 
 The layout plugin creates tabs asynchronously. If `agent_pane_busy` appears, wait briefly and retry once.
 
@@ -21,17 +21,18 @@ The layout plugin creates tabs asynchronously. If `agent_pane_busy` appears, wai
 
 The child starts with zero context. The brief is everything it knows, so name the checkout path, the task, the done condition, and what to do with uncommitted work. Include the repository rules it should follow when they differ from the defaults.
 
-## Collect
+## Handoff
 
-`--wait` returns at the first settled `idle`, `done`, or `blocked` state, not at the end of the turn.
+The dispatcher hands the task over and stops. Do not read the child's result, wait for its turn to finish, or copy it back into this session. The child works in its own checkout, commits there, and answers the user directly.
 
-`done` only means the agent settled, so confirm the work in the checkout with `git -C <path> log --oneline -1` and `git -C <path> status --short`.
-
-`blocked` means the child is asking a question. Read the pane, then ask the user before answering. `agent prompt` is rejected with `agent_blocked` while a dialog is open, so reply with `herdr agent send-keys <slug> <key>` instead. A timeout does not prove the brief never landed, so inspect before resending.
+If the child blocks, the user answers it in the child pane. The dispatcher does not relay the question.
 
 ## clean
 
-`wt-clean pi/<slug> --repo <repo root>`
+Close the child before the workspace. `wt-clean` removes the worktree through Herdr, and Herdr refuses while a pi still occupies the workspace.
+
+1. `herdr workspace close <workspace_id>`
+2. `wt-clean pi/<slug> --repo <repo root>`
 
 Close the checkout, workspace, and branch. If the branch is not merged, exit 1. Do not pass `--force`. Report the refusal and stop. To keep the branch ref, use `git worktree remove` and do not delete the branch.
 
