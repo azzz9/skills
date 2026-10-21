@@ -23,7 +23,7 @@ description: "Create and close worktrees and Herdr workspaces. Isolate editing w
 Choose one at a time. `create` and `clean` are separate operations.
 
 - **create** (no subagent; Herdr + child pi): create a worktree from the main repo and hand an independent task to the child. Follow `references/herdr-workspace.md`. If you are already in a worktree, work there.
-- **clean** (no subagent; Herdr): close the child's workspace first with `herdr workspace close <workspace_id>`. The child must not run `wt-clean` itself: its own working state blocks the clean. Then run `wt-clean pi/<slug> --repo <repo root>`. To keep the branch ref, use `git worktree remove` and do not delete the branch. For several, list candidates with `scripts/worktree-audit.sh`, check uncommitted and in-use worktrees, then delete.
+- **clean** (no subagent; Herdr): wait until the child leaves `working`. The child must not run `wt-clean` itself: its own working state blocks the clean. Run `wt-clean pi/<slug> --repo <repo root>` from another pane. To keep the branch ref, use `git worktree remove` and do not delete the branch. For several, list candidates with `scripts/worktree-audit.sh`, check uncommitted and in-use worktrees, then delete.
 
 ## Stop
 

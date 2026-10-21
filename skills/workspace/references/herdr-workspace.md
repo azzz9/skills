@@ -29,9 +29,9 @@ If the child blocks, the user answers it in the child pane. The dispatcher does 
 
 ## clean
 
-`wt-clean` refuses while the child is working, and a child pi running the command is always working. Run it from another pane, never from the child.
+`wt-clean` refuses while the child is working, and a child pi running the command is always working. Wait for the child to settle, then run it from another pane, never from the child.
 
-1. `herdr workspace close <workspace_id>`
+1. `herdr agent get <slug>` shows `idle` or `done`, not `working`.
 2. `wt-clean pi/<slug> --repo <repo root>`
 
 Close the checkout, workspace, and branch. If the branch is not merged, exit 1. Do not pass `--force`. Report the refusal and stop. To keep the branch ref, use `git worktree remove` and do not delete the branch.
