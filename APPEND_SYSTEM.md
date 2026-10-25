@@ -21,6 +21,10 @@ comments.
 - Before opening a PR, use `/skill:ship`.
 - To send a task to another workspace or close one branch, use `/skill:workspace`. Triggers are "throw it", "another workspace", "hand it to a child pi", "clean up", dispatch, and wt-clean.
 
+## Tools
+
+Exploration goes to `ffgrep`. Enumeration and pipeline filters go to `rg` in bash.
+
 ## Output
 
 Every rule about how a reply is written lives here, so that a skill points at this section instead
