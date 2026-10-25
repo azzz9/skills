@@ -1,8 +1,9 @@
 # imozuru vendor record
 
 - Upstream: https://github.com/MaryCache/imozuru
-- Commit: 69b2e1b82c3571af366a7913375714aa5069c652
-- Date: 2026-10-20
+- Commit: 96381ae4752e65fd17ad5c95f23dc487d8154dd2
+- Version: 2.0
+- Date: 2026-10-25
 - License: MIT. See `LICENSE`.
 - Vendored under: `skills/imozuru/`
 
@@ -14,5 +15,8 @@
   upstream repository prefix.
 - `scripts/report.py` and `scripts/watch.py` are executable so the documented direct invocation works.
 - The redirect-relative link fix and its regression test are local changes to `scripts/fetch.py`.
-- The upstream search-subagent paragraph and its search-report assumptions are adapted to the review-only subagent policy: the caller performs the search role itself; only `reviewer` is used as a subagent.
-- Omitted: `.claude-plugin/`, `assets/`, upstream tests, and the repository READMEs.
+- The upstream search-subagent paragraph and its search-report assumptions are adapted to the
+  review-only subagent policy: the caller performs the search role itself; only `reviewer` is used
+  as a subagent.
+- Omitted: `.claude-plugin/`, `assets/`, the asset build scripts (`scripts/make_guide_shots.py`,
+  `scripts/make_textures.py`), upstream tests, and the repository READMEs.
