@@ -1,8 +1,9 @@
 # yomiyasu vendor record
 
 - Upstream: https://github.com/nanaism/yomiyasu
-- Commit: 8be3ef6e0e668f14cae30c3da6b0c20b95b2179f
-- Version: 2.1.0
+- Commit: 552c12c472ddfb79e2ee7a15219847782686a945
+- Version: 2.4.0
+- Date: 2026-10-25
 - License: MIT. See `LICENSE` and `UNICODE-LICENSE.txt`.
 - Vendored under: `skills/yomiyasu/`
 
