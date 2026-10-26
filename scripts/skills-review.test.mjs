@@ -24,21 +24,6 @@ test("there is no local subagent", () => {
 	assert.doesNotMatch(append, /comment-sicko/);
 });
 
-test("the no-comment rule is in APPEND", () => {
-	const append = readFileSync(join(ROOT, "APPEND_SYSTEM.md"), "utf8");
-	assert.match(append, /^## Comments$/m);
-	assert.match(append, /Write no comments/);
-});
-
-test("ship uses the pstack review subagent", () => {
-	const ship = readFileSync(join(SKILLS, "ship", "SKILL.md"), "utf8");
-	assert.match(ship, /pstack:thermo-nuclear-review-subagent/);
-	assert.match(ship, /Do not wait for human confirmation/);
-	assert.doesNotMatch(ship, /only when (asked|requested)/i);
-	assert.doesNotMatch(ship, /wait for (a )?(request|instruction)/i);
-	assert.doesNotMatch(ship, /comment-sicko/);
-});
-
 test("imozuru does not delegate search to a subagent", () => {
 	const text = readFileSync(join(SKILLS, "imozuru", "SKILL.md"), "utf8");
 	assert.doesNotMatch(text, /検索役のサブエージェント/);
@@ -46,7 +31,7 @@ test("imozuru does not delegate search to a subagent", () => {
 });
 
 test("every mode names an agent or no subagent", () => {
-	for (const name of ["ship", "workspace"]) {
+	for (const name of ["workspace"]) {
 		const text = readFileSync(join(SKILLS, name, "SKILL.md"), "utf8");
 		const modes = text.split("## Modes")[1]?.split("##")[0] ?? "";
 		assert.ok(modes.trim(), `${name}: missing ## Modes`);

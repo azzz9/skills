@@ -20,29 +20,26 @@ local changes.
 scripts need Python 3.10+ and use only the standard library. Optional `pdftotext`, `yt-dlp`,
 `tesseract`, and `ax` improve PDF, YouTube, OCR, and HTML handling.
 
-`skills/pr` and `skills/retro` are vendored from [`mattpocock/skills`](https://github.com/mattpocock/skills)
-(MIT). Each keeps the upstream `LICENSE`; `VENDOR.md` records the commit and local changes. `pr` uses
-the repo's PR template when one exists; otherwise its own. The body is written with `/skill:yomiyasu`.
-`ship` still owns the commit and PR gate. `retro` is hidden.
+`skills/retro` is vendored from [`mattpocock/skills`](https://github.com/mattpocock/skills)
+(MIT). It keeps the upstream `LICENSE`; `VENDOR.md` records the commit and local changes. `retro` is
+hidden.
 
 ## Skills
 
-Ten skills. Four are ours and six are vendored.
+Seven skills. Two are ours and five are vendored.
 
-- `bro`, `explain`, `ship`, `workspace`
-- `herdr`, `hunk-review`, `imozuru`, `pr`, `retro`, `yomiyasu`
+- `explain`, `workspace`
+- `herdr`, `hunk-review`, `imozuru`, `retro`, `yomiyasu`
 
-`bro`, `retro`, and `yomiyasu` are hidden from the catalog and run through `/skill:<name>`. `bro` is
-a plain-language restatement procedure; `explain` is a single procedure; `imozuru` is a research
-procedure with a watch mode; `pr` is a vendored PR body template; `ship` and `workspace` have modes.
-`workspace` owns worktrees; `ship` owns commit and PR, runs the pstack review subagent, and opens
-the PR ready after the review. The comment rule lives in `APPEND_SYSTEM.md`, under `## Comments`.
+`retro` and `yomiyasu` are hidden from the catalog and run through `/skill:<name>`. `explain` is a
+single procedure; `imozuru` is a research procedure with a watch mode; `workspace` has modes and
+owns worktrees and Herdr workspaces.
 
 ## Subagents
 
 pstack owns delegation: its `poteto-mode` skill decides when to fan out and which agent runs
-where. The no-comment rule lives in `APPEND_SYSTEM.md`. The main session checks the findings and
-makes the fix, without asking the human to confirm them.
+where. The main session checks the findings and makes the fix, without asking the human to
+confirm them.
 
 ## Clone a session into a pane
 
