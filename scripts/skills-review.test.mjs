@@ -53,7 +53,7 @@ test("every mode names an agent or no subagent", () => {
 		const lines = modes.split("\n").filter((line) => /^- \*\*/.test(line));
 		assert.ok(lines.length > 0, `${name}: no mode lines`);
 		for (const line of lines) {
-			assert.match(line, /\((?:[^)]*)(?:no subagent|reviewer|pstack:)[^)]*\)/, `${name}: ${line}`);
+			assert.match(line, /\((?:[^)]*)(?:no subagent|reviewer|pstack:thermo-nuclear-review-subagent)[^)]*\)/, `${name}: ${line}`);
 		}
 	}
 });
