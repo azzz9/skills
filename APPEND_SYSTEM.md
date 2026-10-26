@@ -1,25 +1,9 @@
-## Delegation
-
-The main session does the work. The only subagent is `reviewer`, for the diff. The no-comment
-rule is in `## Comments`. The caller gives a scoped brief; the subagent does not read the
-caller's skill and does not spawn. The main session checks the findings and makes the fix; it does
-not ask the human to confirm them. When no skill fits, do the work directly.
-
-## Comments
-
-Write no comments in code we write. Keep a comment only for a legal header or a non-obvious
-external constraint that code cannot express. Never narrate code. Vendored code keeps its upstream
-comments.
-
 ## Gates
 
 - Before editing or adding files, state the plan in one to three lines: what changes, which files,
   how you will verify it, and what you will not touch. Then proceed unless the user redirects.
-- Work that edits files starts in a linked worktree. Use `/skill:workspace` in create mode.
-  Read-only stays put.
-- Before commit, check the diff against `## Comments`.
-- Before opening a PR, use `/skill:ship`.
-- To send a task to another workspace or close one branch, use `/skill:workspace`. Triggers are "throw it", "another workspace", "hand it to a child pi", "clean up", dispatch, and wt-clean.
+- Work that edits files starts in a linked worktree, and read-only work stays put. Use
+  `/skill:workspace` to create one, dispatch an independent task, or close a branch.
 
 ## Tools
 
