@@ -8,22 +8,19 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SKILLS = join(ROOT, "skills");
 const AGENTS = join(ROOT, "agents");
 
-test("the always-on rules use the reviewer", () => {
+test("the always-on rules carry no delegation rule", () => {
 	const append = readFileSync(join(ROOT, "APPEND_SYSTEM.md"), "utf8");
 	assert.ok(!/^## Orchestrator$/m.test(append), "APPEND still has the orchestrator section");
-	assert.match(append, /^## Delegation$/m);
-	assert.match(append, /reviewer/);
-	assert.match(append, /does\s+not\s+ask the human to confirm/);
+	assert.doesNotMatch(append, /^## Delegation$/m);
 	assert.doesNotMatch(append, /comment-sicko/);
 });
 
-test("there is no local subagent; reviewer is builtin", () => {
+test("there is no local subagent", () => {
 	const local = existsSync(AGENTS)
 		? readdirSync(AGENTS).filter((name) => name.endsWith(".md"))
 		: [];
 	assert.deepEqual(local, []);
 	const append = readFileSync(join(ROOT, "APPEND_SYSTEM.md"), "utf8");
-	assert.match(append, /reviewer/);
 	assert.doesNotMatch(append, /comment-sicko/);
 });
 
@@ -33,9 +30,9 @@ test("the no-comment rule is in APPEND", () => {
 	assert.match(append, /Write no comments/);
 });
 
-test("ship uses reviewer only", () => {
+test("ship uses the pstack review subagent", () => {
 	const ship = readFileSync(join(SKILLS, "ship", "SKILL.md"), "utf8");
-	assert.match(ship, /reviewer/);
+	assert.match(ship, /pstack:thermo-nuclear-review-subagent/);
 	assert.match(ship, /Do not wait for human confirmation/);
 	assert.doesNotMatch(ship, /only when (asked|requested)/i);
 	assert.doesNotMatch(ship, /wait for (a )?(request|instruction)/i);
@@ -45,7 +42,7 @@ test("ship uses reviewer only", () => {
 test("imozuru does not delegate search to a subagent", () => {
 	const text = readFileSync(join(SKILLS, "imozuru", "SKILL.md"), "utf8");
 	assert.doesNotMatch(text, /検索役のサブエージェント/);
-	assert.match(text, /サブエージェントは使わない（reviewer だけ）/);
+	assert.match(text, /サブエージェントは使わない/);
 });
 
 test("every mode names an agent or no subagent", () => {
@@ -56,7 +53,7 @@ test("every mode names an agent or no subagent", () => {
 		const lines = modes.split("\n").filter((line) => /^- \*\*/.test(line));
 		assert.ok(lines.length > 0, `${name}: no mode lines`);
 		for (const line of lines) {
-			assert.match(line, /\((?:[^)]*)(?:no subagent|reviewer)[^)]*\)/, `${name}: ${line}`);
+			assert.match(line, /\((?:[^)]*)(?:no subagent|reviewer|pstack:)[^)]*\)/, `${name}: ${line}`);
 		}
 	}
 });

@@ -35,16 +35,14 @@ Ten skills. Four are ours and six are vendored.
 `bro`, `retro`, and `yomiyasu` are hidden from the catalog and run through `/skill:<name>`. `bro` is
 a plain-language restatement procedure; `explain` is a single procedure; `imozuru` is a research
 procedure with a watch mode; `pr` is a vendored PR body template; `ship` and `workspace` have modes.
-`workspace` owns worktrees; `ship` owns commit and PR, runs the reviewer, and opens the PR ready
-after the review. The comment rule lives in `APPEND_SYSTEM.md`, under `## Comments`.
+`workspace` owns worktrees; `ship` owns commit and PR, runs the pstack review subagent, and opens
+the PR ready after the review. The comment rule lives in `APPEND_SYSTEM.md`, under `## Comments`.
 
 ## Subagents
 
-The main session does the work. The only subagent is `reviewer`, for the diff. The no-comment
-rule lives in `APPEND_SYSTEM.md`. There is no orchestrator, scout, worker, or tier ladder. Each
-subagent gets a scoped brief and returns findings. It does not read the caller's skill and does
-not spawn. The main session checks the findings and makes the fix, without asking the human to
-confirm them.
+pstack owns delegation: its `poteto-mode` skill decides when to fan out and which agent runs
+where. The no-comment rule lives in `APPEND_SYSTEM.md`. The main session checks the findings and
+makes the fix, without asking the human to confirm them.
 
 ## Clone a session into a pane
 
@@ -65,11 +63,11 @@ plain Markdown, so they may travel, but nothing here has been verified against a
 
 ## Install
 
-Two files load on every turn. [APPEND_SYSTEM.md](APPEND_SYSTEM.md) holds the delegation rules, the
-gates, the review gates, the skill routing, and the reply rules. [AGENTS.md](AGENTS.md) holds the turn
+Two files load on every turn. [APPEND_SYSTEM.md](APPEND_SYSTEM.md) holds the gates, the skill
+routing, and the reply rules. [AGENTS.md](AGENTS.md) holds the turn
 gate, the language rule, and the git rules. Wire both into `~/.pi/agent/`, and add this repository as a
-package row so pi finds the skills, the agents, and `/clone-pane`. Install `pi-subagents` for
-`reviewer` and `subagent()`.
+package row so pi finds the skills, the agents, and `/clone-pane`. Install `pstack` for the
+`agent` tool and the subagent workflows.
 
 ## License
 
